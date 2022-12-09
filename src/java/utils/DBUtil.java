@@ -9,6 +9,8 @@ import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -16,7 +18,7 @@ import java.sql.SQLException;
  */
 public class DBUtil implements Serializable {
 
-//    public static Connection makeConnection() {
+//    public static Connection getConnection() {
 //        Connection conn = null;
 //        try {
 //            Context ctx = new InitialContext();
@@ -32,15 +34,23 @@ public class DBUtil implements Serializable {
 //        System.out.println(conn);
 //        return conn;
 //    }
-    public static Connection makeConnection() throws ClassNotFoundException, SQLException {
-        Connection conn;
-        String url = "jdbc:sqlserver://localhost;databaseName=TKK_Piano;username=sa;password=12345;encrypt=true;trustServerCertificate=true";
-        Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-        conn = DriverManager.getConnection(url);
-        return conn;
+    public static Connection getConnection() {
+
+        try {
+            Connection conn;
+            String url = "jdbc:sqlserver://localhost;databaseName=TKK_Piano;username=sa;password=12345;encrypt=true;trustServerCertificate=true";
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            conn = DriverManager.getConnection(url);
+            return conn;
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
-        System.out.println(makeConnection());
+        System.out.println(getConnection());
     }
 }

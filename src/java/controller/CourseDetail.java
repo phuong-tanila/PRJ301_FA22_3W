@@ -5,7 +5,13 @@
  */
 package controller;
 
+import course.CourseDAO;
+import course.CourseDTO;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,10 +22,9 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author 15tha
  */
-@WebServlet(name = "MainController", urlPatterns = {"/MainController"})
-public class MainController extends HttpServlet {
-    private final String HOME_CONTROLLER = "HomeController";
-    private final String LOGIN_CONTROLLER = "LoginController";
+@WebServlet(name = "CourseDetail", urlPatterns = {"/CourseDetail"})
+public class CourseDetail extends HttpServlet {
+    private final String DETAIL_PAGE = "/WEB-INF/views/detail.jsp";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -32,22 +37,14 @@ public class MainController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String action = request.getParameter("btnAction").toLowerCase();
-        String url = "";
-        
-        if(action == null || action.isEmpty()) {
-            action = "home";
+        try (PrintWriter out = response.getWriter()) {
+            String id = request.getParameter("id");
+            CourseDTO course = new CourseDAO().find(Integer.parseInt(id));
+            request.setAttribute("course", course);
+            request.getRequestDispatcher(DETAIL_PAGE).forward(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(CourseDetail.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println("action: " + action);
-        switch (action) {
-            case "login": {
-                url = LOGIN_CONTROLLER;
-                break;
-            }case "home" : {
-                url = HOME_CONTROLLER;
-            }
-        }
-        request.getRequestDispatcher(url).forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

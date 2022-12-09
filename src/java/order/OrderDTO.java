@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package user;
+package order;
 
+import java.util.Date;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,13 +18,11 @@ import lombok.ToString;
 @Getter @Setter
 @NoArgsConstructor
 @ToString
-public class UserDTO {
-    
+public class OrderDTO {
+    private int orderID;
     private int userID;
-    private String username;
-    private String password;
-    private String fullName;
-    private String phone;
-    private String email;
-    private String role;
+    private Date buyDate;
+    private int totalPrice;
+    private String paymentMethod;
+    private String paymentStatus;
 }

@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import user.UserDAO;
+import user.UserDTO;
 
 /**
  *
@@ -38,15 +39,13 @@ public class LoginController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet LoginController</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet LoginController at " + new UserDAO().getAll() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            UserDAO uDAO = new UserDAO();
+            String username = request.getParameter("username");
+            String password = request.getParameter("password");
+            UserDTO user = uDAO.login(username, password);
+            if(user == null){
+                
+            }
         } catch (SQLException ex) {
             Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
         }

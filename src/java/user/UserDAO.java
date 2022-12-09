@@ -17,10 +17,9 @@ import utils.DBUtil;
  *
  * @author 15tha
  */
-public class UserDAO {
-
+public class UserDAO {        
     public List<UserDTO> getAll() throws SQLException {
-        Connection conn = DBUtil.makeConnection();
+        Connection conn = DBUtil.getConnection();
         PreparedStatement stm = conn.prepareStatement("SELECT "
                 + "       [UserID]\n"
                 + "      ,[Username]\n"
@@ -34,7 +33,7 @@ public class UserDAO {
         ArrayList<UserDTO> list = new ArrayList<>();
         while(rs.next()) {
             UserDTO u = new UserDTO();
-            u.setUserID(rs.getString("UserID"));
+            u.setUserID(rs.getInt("UserID"));
             u.setUsername(rs.getString("Username"));
             u.setPassword(rs.getString("Password"));
             u.setFullName(rs.getString("Fullname"));
@@ -47,6 +46,15 @@ public class UserDAO {
         stm.close();
         return list;
     }
+    
+    public UserDTO find(String userID) throws SQLException {
+        return getAll()
+                .stream()
+                .filter(user -> Integer.toString(user.getUserID()).equals(userID))
+                .findFirst()
+                .orElse(null);
+    }
+    
     
     public UserDTO login(String username, String password) throws SQLException{
         return getAll()

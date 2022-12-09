@@ -22,6 +22,7 @@
             }
             .row{
                 /*gap: 3px;*/
+                padding: 5px;
             }
             .card-title-custom{
                 overflow: hidden;

@@ -30,7 +30,7 @@
     <body class="vh-100">
         <jsp:include page="WEB-INF/views/headerLogin.jsp"/>
         <!-- Pills navs -->
-        <div class=" m-5">
+        <div class="">
             <section class="">
                 <div class="container-fluid justify-content-center align-items-center h-custom">
                     <div class="row d-flex justify-content-center align-items-center h-100">

@@ -32,11 +32,14 @@ public class MainController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String action = request.getParameter("btnAction").toLowerCase();
+        String action = request.getParameter("btnAction");
+        
         String url = "";
         
         if(action == null || action.isEmpty()) {
             action = "home";
+        }else {
+            action = action.toLowerCase();
         }
         System.out.println("action: " + action);
         switch (action) {

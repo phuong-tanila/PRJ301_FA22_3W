@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 public class MainController extends HttpServlet {
     private final String HOME_CONTROLLER = "HomeController";
     private final String LOGIN_CONTROLLER = "LoginController";
+    private final String SEARCH_CONTROLLER = "SearchController";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -48,6 +49,11 @@ public class MainController extends HttpServlet {
                 break;
             }case "home" : {
                 url = HOME_CONTROLLER;
+                break;
+            }
+            case "search" : {
+                url = SEARCH_CONTROLLER;
+                 break;
             }
         }
         request.getRequestDispatcher(url).forward(request, response);

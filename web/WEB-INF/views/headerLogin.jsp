@@ -12,7 +12,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
         <script src="https://kit.fontawesome.com/1d58ef5eb1.js" crossorigin="anonymous"></script>
         <!--<link href="../../assets/css/headerAfterLogin.css" rel="stylesheet" type="text/css"/>-->
-         </head>
+    </head>
 
     <body>
         <nav class="navbar navbar-expand-lg bg-light ">
@@ -22,9 +22,10 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
-                <form class="d-flex justify-content-center w-50" role="search">
-                    <input class="form-control me-2 " type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                <form class="d-flex justify-content-center w-50" role="search" action="MainController" method="GET">
+                    <input class="form-control me-2 " type="search" placeholder="Search" aria-label="Search" name="searchValue">
+                    <button class="btn btn-outline-success" type="submit" name="btnAction" value="search">
+                        <i class="fa-solid fa-magnifying-glass"></i></button>
                 </form>
                 <button type="button" onclick="window.location.href = '<c:url value="login.jsp"/>'"class="btn btn-primary">Login</button>
             </div>

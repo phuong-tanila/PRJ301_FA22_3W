@@ -26,7 +26,7 @@ public class CourseDAO {
     private static List<CourseDTO> list;
     public static final int ACTIVE = 1;
     public static final int SUSPENDED = 0;
-    
+
     public List<CourseDTO> getTopSeller() throws SQLException {
         return getAll(ACTIVE)
                 .stream()
@@ -35,15 +35,14 @@ public class CourseDAO {
                 .collect(Collectors.toList());
     }
 
-    public CourseDTO find(int courseID)throws SQLException {
+    public CourseDTO find(int courseID) throws SQLException {
         return getAll(ACTIVE)
                 .stream()
                 .filter(course -> course.getCourseID() == courseID)
                 .findFirst()
                 .orElse(null);
     }
-    
-    
+
     public List<CourseDTO> getAll(int status) throws SQLException {
         if (list == null || list.size() != countCourse(status)) {
             Connection conn = DBUtil.getConnection();
@@ -75,6 +74,29 @@ public class CourseDAO {
             list = tmpList;
         }
         return list;
+    }
+
+    public List<CourseDTO> findByName(String name , int skip, int limit) throws SQLException {
+        return getAll(1)
+                .stream()
+                .filter(i
+                        -> i
+                        .getCourseName()
+                        .toLowerCase()
+                        .contains(name.toLowerCase()))
+                .skip(skip).limit(limit)
+                .collect(Collectors.toList());
+    }
+
+    public long CountByName(String name) throws SQLException {
+        return getAll(1)
+                .stream()
+                .filter(i
+                        -> i
+                        .getCourseName()
+                        .toLowerCase()
+                        .contains(name.toLowerCase()))
+                .count();
     }
 
     public List<CourseDTO> getAll() throws SQLException {
@@ -140,7 +162,7 @@ public class CourseDAO {
         }
         return -1;
     }
-    
+
     public int countCourse(int status) throws SQLException {
         Connection conn = DBUtil.getConnection();
         PreparedStatement stm = conn.prepareCall("select count(CourseID) from Course where [status] = ? ");
@@ -154,8 +176,19 @@ public class CourseDAO {
 
     public static void main(String[] args) {
         try {
-            System.out.println(new CourseDAO().getTopSeller());
+            System.out.println(new CourseDAO().CountByName(" "));
 //            System.out.println(new CourseDAO().getAll().size());
+            int page;
+            int course = (int) new CourseDAO().CountByName(" ");
+            if (course > 20) {
+                page = course / 20;
+                if (course % 20 > 0) {
+                    page++;
+                }
+            } else {
+                page = 0;
+            }
+            System.out.println(page);
         } catch (SQLException ex) {
             Logger.getLogger(CourseDAO.class.getName()).log(Level.SEVERE, null, ex);
         }

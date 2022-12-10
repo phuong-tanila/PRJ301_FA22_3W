@@ -46,7 +46,7 @@
         </nav>
 
 
-        <div>
+        <div class="d-flex justify-content-center g-2">
             <form action="SearchController">   
                 <nav aria-label="Page navigation example">
                     <ul class="pagination">

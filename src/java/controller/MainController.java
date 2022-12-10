@@ -5,7 +5,11 @@
  */
 package controller;
 
+import category.CategoryDAO;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,9 +22,11 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "MainController", urlPatterns = {"/MainController"})
 public class MainController extends HttpServlet {
+
     private final String HOME_CONTROLLER = "HomeController";
     private final String LOGIN_CONTROLLER = "LoginController";
     private final String SEARCH_CONTROLLER = "SearchController";
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -34,12 +40,12 @@ public class MainController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String action = request.getParameter("btnAction");
-        
+
         String url = "";
-        
-        if(action == null || action.isEmpty()) {
+
+        if (action == null || action.isEmpty()) {
             action = "home";
-        }else {
+        } else {
             action = action.toLowerCase();
         }
         System.out.println("action: " + action);
@@ -47,13 +53,14 @@ public class MainController extends HttpServlet {
             case "login": {
                 url = LOGIN_CONTROLLER;
                 break;
-            }case "home" : {
+            }
+            case "home": {
                 url = HOME_CONTROLLER;
                 break;
             }
-            case "search" : {
+            case "search": {
                 url = SEARCH_CONTROLLER;
-                 break;
+                break;
             }
         }
         request.getRequestDispatcher(url).forward(request, response);

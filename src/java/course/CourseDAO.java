@@ -76,7 +76,7 @@ public class CourseDAO {
         return list;
     }
 
-    public List<CourseDTO> findByName(String name , int skip, int limit) throws SQLException {
+    public List<CourseDTO> findByName(String name, int skip, int limit) throws SQLException {
         return getAll(1)
                 .stream()
                 .filter(i
@@ -96,6 +96,25 @@ public class CourseDAO {
                         .getCourseName()
                         .toLowerCase()
                         .contains(name.toLowerCase()))
+                .count();
+    }
+
+    public List<CourseDTO> findByCate(int cateId, int skip, int limit) throws SQLException {
+        return getAll(1)
+                .stream()
+                .filter(i
+                        -> i
+                        .getCategoryID() == cateId)
+                .skip(skip).limit(limit)
+                .collect(Collectors.toList());
+    }
+
+    public long CountByCate(int cateId) throws SQLException {
+        return getAll(1)
+                .stream()
+                .filter(i
+                        -> i
+                        .getCategoryID() == cateId)
                 .count();
     }
 
@@ -176,19 +195,8 @@ public class CourseDAO {
 
     public static void main(String[] args) {
         try {
-            System.out.println(new CourseDAO().CountByName(" "));
-//            System.out.println(new CourseDAO().getAll().size());
-            int page;
-            int course = (int) new CourseDAO().CountByName(" ");
-            if (course > 20) {
-                page = course / 20;
-                if (course % 20 > 0) {
-                    page++;
-                }
-            } else {
-                page = 0;
-            }
-            System.out.println(page);
+            System.out.println(new CourseDAO().CountByCate(1)>20);
+
         } catch (SQLException ex) {
             Logger.getLogger(CourseDAO.class.getName()).log(Level.SEVERE, null, ex);
         }

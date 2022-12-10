@@ -79,6 +79,7 @@ public class CourseDAO {
     public List<CourseDTO> findByName(String name, int skip, int limit) throws SQLException {
         return getAll(1)
                 .stream()
+                 .sorted((c1, c2) -> c2.getCreatedAt().compareTo(c1.getCreatedAt()))
                 .filter(i
                         -> i
                         .getCourseName()
@@ -92,7 +93,7 @@ public class CourseDAO {
         return getAll(1)
                 .stream()
                 .filter(i
-                        -> i
+                        -> i             
                         .getCourseName()
                         .toLowerCase()
                         .contains(name.toLowerCase()))
@@ -102,6 +103,7 @@ public class CourseDAO {
     public List<CourseDTO> findByCate(int cateId, int skip, int limit) throws SQLException {
         return getAll(1)
                 .stream()
+                .sorted((c1, c2) -> c2.getCreatedAt().compareTo(c1.getCreatedAt()))
                 .filter(i
                         -> i
                         .getCategoryID() == cateId)
@@ -195,8 +197,9 @@ public class CourseDAO {
 
     public static void main(String[] args) {
         try {
-            System.out.println(new CourseDAO().CountByCate(1)>20);
-
+            for (CourseDTO x : new CourseDAO().findByCate(1, 0, 20)) {
+                System.out.println(x.getCreatedAt() +"||"+ x.getCourseName());
+            }
         } catch (SQLException ex) {
             Logger.getLogger(CourseDAO.class.getName()).log(Level.SEVERE, null, ex);
         }

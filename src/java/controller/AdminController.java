@@ -109,7 +109,10 @@ public class AdminController extends HttpServlet {
                             c.setSoldCount(0);
                             c.setCreatedBy(currentUser.getUserID());
                             c.setCreatedAt(new Date());
-                            courseDAO.create(c);
+//                            courseDAO.create(c);
+                            System.out.println(c);
+                            response.sendRedirect("MainController?btnAction=admin&func=showCreate");
+                            
                             break;
                         }
                         case "update": {
@@ -120,7 +123,10 @@ public class AdminController extends HttpServlet {
                             c.setSoldCount(oldCourse.getSoldCount());
                             c.setCreatedBy(oldCourse.getCreatedBy());
                             c.setCreatedAt(oldCourse.getCreatedAt());
+//                            System.out.println(c);
+//                            out.print(c);
                             courseDAO.upadte(c);
+                            response.sendRedirect("MainController?btnAction=admin&func=showUpdate");
                             break;
                         }
                         default:

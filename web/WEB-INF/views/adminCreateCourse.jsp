@@ -43,7 +43,7 @@
                     <a class="nav-link" href="<c:url value='/MainController?btnAction=admin&func=showUpdate'/>"   >Update product</a>
                 </li>
             </ul>
-            <form action="MainController" class="mt-5">
+            <form action="MainController" class="mt-5" id="form">
                 <div class="input-group">
                     <span class="input-group-text">Course name</span>
                     <input type="text" required name="courseName" class="form-control" placeholder="Course name">
@@ -56,7 +56,7 @@
                     <span class="input-group-text">Course description</span>
                     <input type="text" required name="courseDesc" class="form-control" placeholder="Course description">
                 </div>
-                
+
                 <div class="d-flex mt-3 mb-3">
                     <div class="input-group">
                         <span class="input-group-text">Teacher</span>
@@ -113,12 +113,30 @@
                 $('.level-select').select2();
                 $('.category-select').select2();
                 $('#startDate').daterangepicker({
-                    'startDate': moment(),
+                    minDate: new Date(),
                     'locale': {
                         format: "DD/MM/YYYY",
                     }
                 });
             });
+//            function handleSubmit() {
+//                const form = new FormData(document.querySelector("#form"))
+//                const data = new URLSearchParams();
+//                for (const pair of form) {
+//                    console.log(pair[0] + "   " + pair[1])
+//                    data.append(pair[0], pair[1]);
+//                }
+//                console.log(data)
+//                fetch("<c:url value="/AdminController"/>", {
+//                    method: 'post',
+//                    body: data
+//                }).then(res => res).then((res) => {
+//                    console.log(res)
+//                    swal("Created successfully", "", "success");
+//                    document.querySelector("#form").reset()
+//                }
+//                )
+//            }
         </script>
     </body>
 </html>

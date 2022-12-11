@@ -43,7 +43,7 @@
                     <a class="nav-link active" >Update product</a>
                 </li>
             </ul>
-            <form action="MainController" class="mt-5">
+            <form action="MainController" id="form" class="mt-5">
                 <div class="input-group">
                     <span class="input-group-text">Course id</span>
                     <select class="course-select"  required name="courseID" >
@@ -134,11 +134,13 @@
                 $('.level-select').select2();
                 $('.category-select').select2();
                 $('#startDate').daterangepicker({
-                    'startDate': moment(),
+                    minDate:new Date(),
                     'locale': {
                         format: "DD/MM/YYYY",
                     }
                 });
+//                $('#startDate').data('daterangepicker').setStartDate(moment())
+//                $('#startDate').data('daterangepicker').setEndDate(moment().add(3, 'y'))
                 const courseList = ${courseList};
                 const courseSelect = document.querySelector(".course-select");
                 courseList.forEach(i => {
@@ -164,10 +166,26 @@
                         document.querySelector("input[name=duration]").value = formatDate(res.startDate) + " - " + formatDate(res.endDate)
                         document.querySelector("input[name=price]").value = res.tuitionFee;
                     });
-
                 });
-
             });
+//            function handleSubmit() {
+//                const form = new FormData(document.querySelector("#form"))
+//                const data = new URLSearchParams();
+//                for (const pair of form) {
+//                    console.log(pair[0] + "   " + pair[1])
+//                    data.append(pair[0], pair[1]);
+//                }
+//                console.log(data)
+//                fetch("<c:url value="/AdminController"/>", {
+//                    method: 'post',
+//                    body: data
+//                }).then(res => res).then((res) => {
+//                    console.log(res)
+//                    swal("Created successfully", "", "success");
+//                    document.querySelector("#form").reset()
+//                }
+//                )
+//            }
         </script>
     </body>
 </html>

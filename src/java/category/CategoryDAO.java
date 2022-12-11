@@ -41,17 +41,18 @@ public class CategoryDAO {
         }
         return list;
     }
-    
-    public CategoryDTO find(int cateID) throws SQLException{
+
+    public CategoryDTO find(int cateID) throws SQLException {
         return getAll()
                 .stream()
-                .filter(c -> c.getCateID()== cateID)
+                .filter(c -> c.getCateID() == cateID)
                 .findFirst()
                 .orElse(null);
     }
+
     public static void main(String[] args) {
         try {
-            System.out.println(new CategoryDAO().find(1));
+            System.out.println(new CategoryDAO().getAll());
         } catch (SQLException ex) {
             Logger.getLogger(CategoryDAO.class.getName()).log(Level.SEVERE, null, ex);
         }

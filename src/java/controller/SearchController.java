@@ -5,10 +5,10 @@
  */
 package controller;
 
+import category.CategoryDAO;
 import course.CourseDAO;
 import course.CourseDTO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
@@ -29,6 +29,7 @@ public class SearchController extends HttpServlet {
     private final int COURSE_PER_PAGE = 20;
     private final String SEARCH_PAGE = "/WEB-INF/views/searchResult.jsp";
     private final String DETAIL_PAGE = "/WEB-INF/views/detail.jsp";
+    private final String ErroPage = "/WEB-INF/views/Error.jsp";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,62 +43,130 @@ public class SearchController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        String url = ErroPage;
         String searchValue = request.getParameter("searchValue");
-        String url;
-        int Numpage;
-        int page;
-        if (request.getParameter("page") == null) {
-            page = 1;
-        } else {
-            page = Integer.parseInt(request.getParameter("page"));
-        }
-        int skip, limit;
-        if (page == 1) {
-            skip = 0;
-            limit = COURSE_PER_PAGE;
-            try {
-                List<CourseDTO> dto = new CourseDAO().findByName(searchValue, skip, limit);
-                int course = (int) new CourseDAO().CountByName(searchValue);
-                if (course > 20) {
-                    Numpage = course / 20;
-                    if (course % 20 > 0) {
-                        Numpage++;
-                    }
-                } else {
-                    Numpage = 0;
-                }
-                request.setAttribute("Numpage", Numpage);
-                request.setAttribute("list", dto);
-                request.setAttribute("searchValue", searchValue);
-                url = SEARCH_PAGE;
-                request.getRequestDispatcher(url).forward(request, response);
-            } catch (SQLException ex) {
-                Logger.getLogger(SearchController.class.getName()).log(Level.SEVERE, null, ex);
+        if (searchValue != null) {
+            int Numpage;
+            int page;
+            if (request.getParameter("page") == null) {
+                page = 1;
+            } else {
+                page = Integer.parseInt(request.getParameter("page"));
             }
-        } else {
-            skip = (page - 1) * 20;
-            limit = COURSE_PER_PAGE;
-            try {
-                List<CourseDTO> dto = new CourseDAO().findByName(searchValue, skip, limit);
-                int course = (int) new CourseDAO().CountByName(searchValue);
-                if (course > 20) {
-                    Numpage = course / 20;
-                    if (course % 20 > 0) {
-                        Numpage++;
+            int skip, limit;
+            if (page == 1) {
+                skip = 0;
+                limit = COURSE_PER_PAGE;
+                try {
+                    List<CourseDTO> dto = new CourseDAO().findByName(searchValue, skip, limit);
+                    int course = (int) new CourseDAO().CountByName(searchValue);
+                    if (course > 20) {
+                        Numpage = course / 20;
+                        if (course % 20 > 0) {
+                            Numpage++;
+                        }
+                    } else {
+                        Numpage = 0;
                     }
-                } else {
-                    Numpage = 0;
+                    request.setAttribute("Category", new CategoryDAO().getAll());
+                    request.setAttribute("Numpage", Numpage);
+                    request.setAttribute("list", dto);
+                    request.setAttribute("searchValue", searchValue);
+                    url = SEARCH_PAGE;
+                    request.getRequestDispatcher(url).forward(request, response);
+                } catch (SQLException ex) {
+                    Logger.getLogger(SearchController.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                request.setAttribute("Numpage", Numpage);
-                request.setAttribute("list", dto);
-                request.setAttribute("searchValue", searchValue);
-                url = SEARCH_PAGE;
-                request.getRequestDispatcher(url).forward(request, response);
-            } catch (SQLException ex) {
-                Logger.getLogger(SearchController.class.getName()).log(Level.SEVERE, null, ex);
+            } else {
+                skip = (page - 1) * 20;
+                limit = COURSE_PER_PAGE;
+                try {
+                    List<CourseDTO> dto = new CourseDAO().findByName(searchValue, skip, limit);
+                    int course = (int) new CourseDAO().CountByName(searchValue);
+                    if (course > 20) {
+                        Numpage = course / 20;
+                        if (course % 20 > 0) {
+                            Numpage++;
+                        }
+                    } else {
+                        Numpage = 0;
+                    }
+                    request.setAttribute("Category", new CategoryDAO().getAll());
+                    request.setAttribute("Numpage", Numpage);
+                    request.setAttribute("list", dto);
+                    request.setAttribute("searchValue", searchValue);
+                    url = SEARCH_PAGE;
+
+                } catch (SQLException ex) {
+                    Logger.getLogger(SearchController.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
 
+        if (request.getParameter("cateId") != null) {
+            
+            int cateId = Integer.parseInt(request.getParameter("cateId"));
+            int Numpage;
+            int page;
+            if (request.getParameter("page") == null) {
+                page = 1;
+            } else {
+                page = Integer.parseInt(request.getParameter("page"));
+            }
+            int skip, limit;
+            System.out.println(page);
+            if (page == 1) {
+                skip = 0;
+                limit = COURSE_PER_PAGE;
+                try {
+                    List<CourseDTO> dto = new CourseDAO().findByCate(cateId, skip, limit);
+                    int course = (int) new CourseDAO().CountByCate(cateId);
+                    System.out.println(cateId);
+                    System.out.println(course);
+                    if (course > 20) {
+                        Numpage = course / 20;
+                        if (course % 20 > 0) {
+                            Numpage++;
+                        }
+                    } else {
+                        Numpage = 0;
+                    }
+                    request.setAttribute("Category", new CategoryDAO().getAll());
+                    request.setAttribute("Numpage", Numpage);
+                    System.out.println(Numpage);
+                    request.setAttribute("list", dto);
+                    request.setAttribute("cateId", cateId);
+                    url = SEARCH_PAGE;
+                    request.getRequestDispatcher(url).forward(request, response);
+                } catch (SQLException ex) {
+                    Logger.getLogger(SearchController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                skip = (page - 1) * 20;
+                limit = COURSE_PER_PAGE;
+                try {
+                    List<CourseDTO> dto = new CourseDAO().findByCate(cateId, skip, limit);
+                    int course = (int) new CourseDAO().CountByCate(cateId);
+                    if (course > 20) {
+                        Numpage = course / 20;
+                        if (course % 20 > 0) {
+                            Numpage++;
+                        }
+                    } else {
+                        Numpage = 0;
+                    }
+                    request.setAttribute("Category", new CategoryDAO().getAll());
+                    request.setAttribute("Numpage", Numpage);
+                    request.setAttribute("list", dto);
+                    request.setAttribute("cateId", cateId);
+                    url = SEARCH_PAGE;
+
+                } catch (SQLException ex) {
+                    Logger.getLogger(SearchController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        request.getRequestDispatcher(url).forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

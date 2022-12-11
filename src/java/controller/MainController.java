@@ -5,7 +5,11 @@
  */
 package controller;
 
+import category.CategoryDAO;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -41,7 +45,6 @@ public class MainController extends HttpServlet {
         String action = request.getParameter("btnAction");
 
         String url = HOME_CONTROLLER;
-
         if (action == null || action.isEmpty()) {
             action = "home";
         } else {

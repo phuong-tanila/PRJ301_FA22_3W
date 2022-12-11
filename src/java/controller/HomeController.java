@@ -50,7 +50,7 @@ public class HomeController extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             HttpSession session = request.getSession();
             UserDTO u = (UserDTO) session.getAttribute("user");
-            if(u != null){
+            if (u != null) {
                 request.setAttribute("user", u);
             }
             UserDAO uDAO = new UserDAO();
@@ -59,8 +59,7 @@ public class HomeController extends HttpServlet {
             List<UserDTO> teacherList = new ArrayList<>();
             List<LevelDTO> levelList = new ArrayList<>();
             List<CategoryDTO> cateList = new ArrayList<>();
-            
-            
+
             for (CourseDTO c : topSellerCourse) {
                 teacherList.add(uDAO.find(Integer.toString(c.getTeacherID())));
                 levelList.add(new LevelDAO().find(c.getLevelID()));
@@ -74,7 +73,7 @@ public class HomeController extends HttpServlet {
         } catch (SQLException ex) {
             Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

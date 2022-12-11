@@ -46,7 +46,17 @@
         </nav>
 
 
-
+        <div class="d-flex justify-content-center g-2">
+            <form action="SearchController">   
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        <c:forEach var="c" varStatus="loop" items="${Category}">                         
+                            <li class="page-item"><a class="page-link" href="<c:url value="/SearchController?cateId=${c.cateID}"/>">${c.cateName}</a></li>    
+                            </c:forEach> 
+                    </ul>
+                </nav>
+            </form>
+        </div>
 
         <div class="container">
             <div class="row justify-content-around">
@@ -74,18 +84,35 @@
                 </c:forEach>    
             </div>               
         </div>
-        <div class="d-flex justify-content-center g-2">     
-            <form action="SearchController">   
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination">
-                        <c:forEach var="p" varStatus="loop" begin="1" end="${Numpage}">                         
-                            <li class="page-item"><a class="page-link" href="<c:url value="/SearchController?searchValue=${searchValue}&page=${loop.count}"/>">${loop.count}</a></li>    
-                            </c:forEach> 
-                    </ul>
-                </nav>
-            </form>
-        </div>
 
+        <c:if test="${searchValue == null}" >
+
+            <div class="d-flex justify-content-center g-2">     
+                <form action="SearchController">   
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination">
+                            <c:forEach var="p" varStatus="loop" begin="1" end="${Numpage}">                         
+                                <li class="page-item"><a class="page-link" href="<c:url value="/SearchController?cateId=${cateId}&page=${loop.count}"/>">${loop.count}</a></li>    
+                                </c:forEach> 
+                        </ul>
+                    </nav>
+                </form>
+            </div>
+        </c:if>
+
+        <c:if test="${cateId == null}">
+
+            <div class="d-flex justify-content-center g-2">     
+                <form action="SearchController">   
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination">
+                            <c:forEach var="p" varStatus="loop" begin="1" end="${Numpage}">                         
+                                <li class="page-item"><a class="page-link" href="<c:url value="/SearchController?searchValue=${searchValue}&page=${loop.count}"/>">${loop.count}</a></li>    
+                                </c:forEach> 
+                        </ul>
+                    </nav>
+                </form>
+            </div></c:if> 
 
 
         <footer style="width: 100%;bottom: 0;" class="bg-dark text-center text-white">

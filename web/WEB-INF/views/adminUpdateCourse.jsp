@@ -10,7 +10,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Create product</title>
+        <title>Update product</title>
         <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 
         <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
@@ -37,13 +37,19 @@
         <div class="container">
             <ul class="nav nav-tabs">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" >Create Product</a>
+                    <a class="nav-link" href="<c:url value='/MainController?btnAction=admin&func=showCreate'/>"aria-current="page" >Create Product</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Update product</a>
+                    <a class="nav-link active" >Update product</a>
                 </li>
             </ul>
             <form action="MainController" class="mt-5">
+                <div class="input-group">
+                    <span class="input-group-text">Course id</span>
+                    <select class="course-select"  required name="courseID" >
+
+                    </select>
+                </div>
                 <div class="input-group">
                     <span class="input-group-text">Course name</span>
                     <input type="text" required name="courseName" class="form-control" placeholder="Course name">
@@ -56,7 +62,7 @@
                     <span class="input-group-text">Course description</span>
                     <input type="text" required name="courseDesc" class="form-control" placeholder="Course description">
                 </div>
-                
+
                 <div class="d-flex mt-3 mb-3">
                     <div class="input-group">
                         <span class="input-group-text">Teacher</span>
@@ -104,10 +110,25 @@
                     <input type="text" class="form-control" required name="price" >
                 </div>
                 <button type="submit" class="btn btn-primary d-flex justify-content-between" name="btnAction" value="admin" >Create</button>
-                <input type="text" hidden  name="func" value="create">
+                <input type="text" hidden  name="func" value="update">
             </form>
         </div>
         <script>
+            function formatDate(dateStr) {
+                const date = new Date(dateStr);
+                const yyyy = date.getFullYear();
+                let mm = date.getMonth() + 1; // Months start at 0!
+                let dd = date.getDate();
+
+                if (dd < 10)
+                    dd = '0' + dd;
+                if (mm < 10)
+                    mm = '0' + mm;
+
+                const formattedToday = dd + '/' + mm + '/' + yyyy;
+
+                return formattedToday;
+            }
             $(document).ready(function () {
                 $('.teacher-select').select2();
                 $('.level-select').select2();
@@ -118,6 +139,34 @@
                         format: "DD/MM/YYYY",
                     }
                 });
+                const courseList = ${courseList};
+                const courseSelect = document.querySelector(".course-select");
+                courseList.forEach(i => {
+                    console.log(i)
+                    courseSelect.innerHTML += '<option value="' + i.courseID + '">' + i.courseID + '</option>'
+                });
+                $('.course-select').select2();
+                $('.course-select').on('change.select2', function (e) {
+                    console.log();
+                    const id = $('.course-select').val();
+                    fetch("<c:url value='/MainController?btnAction=ajax'/>&func=getCourse&ID=" + id, {
+                        method: "GET"
+                    }).then(res => res.json()).then(res => {
+                        console.log(res)
+                        document.querySelector("input[name=courseName]").value = res.courseName;
+                        document.querySelector("input[name=courseImg]").value = res.imageUrl;
+                        document.querySelector("input[name=courseDesc]").value = res.description;
+                        $('.teacher-select').val(res.teacherID).trigger('change');
+                        $('.level-select').val(res.levelID).trigger('change');
+                        document.querySelector("input[name=slot]").value = res.slot;
+
+                        $('.category-select').val(res.categoryID).trigger('change');
+                        document.querySelector("input[name=duration]").value = formatDate(res.startDate) + " - " + formatDate(res.endDate)
+                        document.querySelector("input[name=price]").value = res.tuitionFee;
+                    });
+
+                });
+
             });
         </script>
     </body>

@@ -5,8 +5,11 @@
  */
 package controller;
 
-import category.CategoryDAO;
+import com.google.gson.Gson;
+import course.CourseDAO;
+import course.CourseDTO;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,17 +23,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author 15tha
  */
-@WebServlet(name = "MainController", urlPatterns = {"/MainController"})
-public class MainController extends HttpServlet {
-
-    private final String HOME_CONTROLLER = "HomeController";
-    private final String LOGIN_CONTROLLER = "LoginController";
-    private final String SEARCH_CONTROLLER = "SearchController";
-    private final String CART_CONTROLLER = "CartController";
-    private final String PRODUCT_DETAIL_CONTROLLER = "CourseDetailController";
-    private final String LOGOUT_CONTROLLER = "LogoutController";
-    private final String ADMIN_CONTROLLER = "AdminController";
-    private final String AJAX_CONTROLLER = "AjaxController";
+@WebServlet(name = "AjaxController", urlPatterns = {"/AjaxController"})
+public class AjaxController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -44,46 +38,27 @@ public class MainController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String action = request.getParameter("btnAction");
-
-        String url = HOME_CONTROLLER;
-        if (action == null || action.isEmpty()) {
-            action = "home";
-        } else {
-            action = action.toLowerCase();
-        }
-        System.out.println("action: " + action);
-        switch (action) {
-            case "login": {
-                url = LOGIN_CONTROLLER;
-                break;
-            }
-            case "home": {
-                url = HOME_CONTROLLER;
-                break;
-            }
-            case "search": {
-                url = SEARCH_CONTROLLER;
-                break;
-            }
-            case "detail": {
-                url = PRODUCT_DETAIL_CONTROLLER;
-                break;
-            }
-            case "cart": {
-                url = CART_CONTROLLER;
-                break;
-            }case "logout": {
-                url = LOGOUT_CONTROLLER;
-                break;
-            }case "admin": {
-                url = ADMIN_CONTROLLER;
-                break;
-            }case "ajax": {
-                url = AJAX_CONTROLLER;
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            String func = request.getParameter("func");
+            if (func != null) {
+                switch (func) {
+                    case "getCourse": {
+                        int courseID = Integer.parseInt(request.getParameter("ID"));
+                        try {
+                            CourseDTO c = new CourseDAO().find(courseID);
+                            out.println(new Gson().toJson(c));
+                        } catch (SQLException ex) {
+                            Logger.getLogger(AjaxController.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        
+                        break;
+                    }
+                    default:
+                        throw new AssertionError();
+                }
             }
         }
-        request.getRequestDispatcher(url).forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -6,6 +6,7 @@
 package controller;
 
 import category.CategoryDAO;
+import com.google.gson.Gson;
 import course.CourseDAO;
 import course.CourseDTO;
 import java.io.IOException;
@@ -35,7 +36,8 @@ import user.UserDTO;
 @WebServlet(name = "AdminController", urlPatterns = {"/AdminController"})
 public class AdminController extends HttpServlet {
 
-    private final String CREATE_PRODUCT = "/WEB-INF/views/adminCreateProduct.jsp";
+    private final String CREATE_COURSE = "/WEB-INF/views/adminCreateCourse.jsp";
+    private final String UPDATE_COURSE = "/WEB-INF/views/adminUpdateCourse.jsp";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -52,6 +54,7 @@ public class AdminController extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             UserDAO uDAO = new UserDAO();
+            CourseDAO courseDAO = new CourseDAO();
             try {
                 HttpSession session = request.getSession();
                 UserDTO currentUser = (UserDTO) session.getAttribute("user");
@@ -59,38 +62,64 @@ public class AdminController extends HttpServlet {
                     throw new NullPointerException("Not admin user");
                 }
                 String func = request.getParameter("func");
-                if (func == null) {
+                if(func == null) {
+                    func = "showCreate";
+                }
+                if (func.equals("showCreate") || func.equals("showUpdate")) {
+                    
                     List<UserDTO> teacherList = uDAO.getAll().stream().filter(teacher -> teacher.getRole().equals("TC")).collect(Collectors.toList());
                     request.setAttribute("teacherList", teacherList);
                     request.setAttribute("cateList", new CategoryDAO().getAll());
                     request.setAttribute("levelList", new LevelDAO().getAll());
+                    if(func.equals("showCreate")){
+                        request.getRequestDispatcher(CREATE_COURSE).forward(request, response);
+                        return;
+                    }else if(func.equals("showUpdate")){
+                        request.setAttribute("courseList", new Gson().toJson(courseDAO.getAll()));
+                        request.getRequestDispatcher(UPDATE_COURSE).forward(request, response);
+                    }
                 } else {
                     CourseDTO c = new CourseDTO();
-                    CourseDAO courseDAO = new CourseDAO();
-                    String teacherIDStr = request.getParameter("teacherID");
-                    c.setSlot(Integer.parseInt(request.getParameter("slot")));
-                    c.setImageUrl(request.getParameter("courseImg"));
-                    c.setDescription(request.getParameter("courseDesc"));
-                    c.setTeacherID(Integer.parseInt(teacherIDStr));
-                    c.setCourseName(request.getParameter("courseName"));
-                    c.setCategoryID(Integer.parseInt(request.getParameter("cateID")));
-                    c.setLevelID(Integer.parseInt(request.getParameter("levelID")));
-                    c.setTuitionFee(Double.parseDouble(request.getParameter("price")));
                     String[] duration = request.getParameter("duration").split(" - ");
                     SimpleDateFormat clientFormat = new SimpleDateFormat("dd/MM/yyyy");
                     Date startDate = clientFormat.parse(duration[0]);
                     Date endDate = clientFormat.parse(duration[0]);
+                    String teacherIDStr = request.getParameter("teacherID");
+                    c.setCourseName(request.getParameter("courseName"));
+                    c.setTeacherID(Integer.parseInt(teacherIDStr));
+                    c.setCategoryID(Integer.parseInt(request.getParameter("cateID")));
+                    c.setDescription(request.getParameter("courseDesc"));
+                    c.setSlot(Integer.parseInt(request.getParameter("slot")));
+                    c.setTuitionFee(Double.parseDouble(request.getParameter("price")));
+                    c.setImageUrl(request.getParameter("courseImg"));
                     c.setStartDate(startDate);
                     c.setEndDate(endDate);
-                    c.setCreatedBy(currentUser.getUserID());
+                    c.setStatus("active");
+                    c.setLevelID(Integer.parseInt(request.getParameter("levelID")));
+                    c.setLastUpdateUser(currentUser.getUserID());
+                    c.setLastUpdateDate(new Date());
+                    
+                    
+                    
+                    
+                    
                     c.setCreatedAt(new Date());
                     switch (func) {
                         case "create": {
+                            c.setSoldCount(0);
+                            c.setCreatedBy(currentUser.getUserID());
+                            c.setCreatedAt(new Date());
                             courseDAO.create(c);
                             break;
-                        }case "update": {
+                        }
+                        case "update": {
                             int courseID = Integer.parseInt(request.getParameter("courseID"));
+                            CourseDTO oldCourse = courseDAO.find(courseID);
+                            
                             c.setCourseID(courseID);
+                            c.setSoldCount(oldCourse.getSoldCount());
+                            c.setCreatedBy(oldCourse.getCreatedBy());
+                            c.setCreatedAt(oldCourse.getCreatedAt());
                             courseDAO.upadte(c);
                             break;
                         }
@@ -103,10 +132,11 @@ public class AdminController extends HttpServlet {
                 Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
             } catch (NullPointerException ex) {
                 Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
+                response.sendRedirect("login.jsp");
             } catch (ParseException ex) {
                 Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
             }
-            request.getRequestDispatcher(CREATE_PRODUCT).forward(request, response);
+            
         }
     }
 

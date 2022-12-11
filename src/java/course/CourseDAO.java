@@ -22,12 +22,12 @@ import utils.DBUtil;
  * @author 15tha
  */
 public class CourseDAO {
-
+    
     private final int ITEM_PER_PAGE = 20;
     private static List<CourseDTO> list;
     public static final int ACTIVE = 1;
     public static final int SUSPENDED = 0;
-
+    
     public List<CourseDTO> getTopSeller() throws SQLException {
         return getAll(ACTIVE)
                 .stream()
@@ -35,7 +35,7 @@ public class CourseDAO {
                 .limit(8)
                 .collect(Collectors.toList());
     }
-
+    
     public boolean create(CourseDTO c) throws SQLException {
         String sql = "INSERT INTO [dbo].[Course]\n"
                 + "           ([Course_Name]\n"
@@ -61,7 +61,7 @@ public class CourseDAO {
         setMappingCourseToDB(stm, c);
         return stm.executeUpdate() == 1;
     }
-
+    
     public boolean upadte(CourseDTO c) throws SQLException {
         String sql = "UPDATE [dbo].[Course]\n"
                 + "   SET [Course_Name] = ?\n"
@@ -87,7 +87,7 @@ public class CourseDAO {
         stm.setInt(17, c.getCourseID());
         return stm.executeUpdate() == 1;
     }
-
+    
     public int setMappingCourseToDB(PreparedStatement stm, CourseDTO c) throws SQLException {
         stm.setString(1, c.getCourseName());
         stm.setInt(2, c.getTeacherID());
@@ -107,7 +107,7 @@ public class CourseDAO {
         stm.setInt(16, c.getSoldCount());
         return 17;
     }
-
+    
     public CourseDTO find(int courseID) throws SQLException {
         return getAll(ACTIVE)
                 .stream()
@@ -115,7 +115,7 @@ public class CourseDAO {
                 .findFirst()
                 .orElse(null);
     }
-
+    
     public List<CourseDTO> getAll(int status) throws SQLException {
         if (list == null || list.size() != countCourse(status)) {
             Connection conn = DBUtil.getConnection();
@@ -148,7 +148,7 @@ public class CourseDAO {
         }
         return list;
     }
-
+    
     public List<CourseDTO> findByName(String name, int skip, int limit) throws SQLException {
         return getAll(1)
                 .stream()
@@ -161,7 +161,7 @@ public class CourseDAO {
                 .skip(skip).limit(limit)
                 .collect(Collectors.toList());
     }
-
+    
     public long CountByName(String name) throws SQLException {
         return getAll(1)
                 .stream()
@@ -172,7 +172,7 @@ public class CourseDAO {
                         .contains(name.toLowerCase()))
                 .count();
     }
-
+    
     public List<CourseDTO> findByCate(int cateId, int skip, int limit) throws SQLException {
         return getAll(1)
                 .stream()
@@ -183,7 +183,7 @@ public class CourseDAO {
                 .skip(skip).limit(limit)
                 .collect(Collectors.toList());
     }
-
+    
     public long CountByCate(int cateId) throws SQLException {
         return getAll(1)
                 .stream()
@@ -192,7 +192,7 @@ public class CourseDAO {
                         .getCategoryID() == cateId)
                 .count();
     }
-
+    
     public List<CourseDTO> getAll() throws SQLException {
         if (list == null || list.size() != countCourse()) {
             System.out.println("!@#");
@@ -224,7 +224,7 @@ public class CourseDAO {
         }
         return list;
     }
-
+    
     public void getMappingCourseFromDB(ResultSet rs, List<CourseDTO> list) throws SQLException {
         CourseDTO c = new CourseDTO();
         c.setCourseID(rs.getInt("CourseID"));
@@ -246,7 +246,7 @@ public class CourseDAO {
         c.setSoldCount(rs.getInt("sold_count"));
         list.add(c);
     }
-
+    
     public int countCourse() throws SQLException {
         Connection conn = DBUtil.getConnection();
         PreparedStatement stm = conn.prepareCall("select count(CourseID) from Course");
@@ -256,7 +256,7 @@ public class CourseDAO {
         }
         return -1;
     }
-
+    
     public int countCourse(int status) throws SQLException {
         Connection conn = DBUtil.getConnection();
         PreparedStatement stm = conn.prepareCall("select count(CourseID) from Course where [status] = ? ");
@@ -267,32 +267,33 @@ public class CourseDAO {
         }
         return -1;
     }
-
+    
     public static void main(String[] args) {
         try {
 //            for (CourseDTO x : new CourseDAO().findByCate(1, 0, 20)) {
 //                System.out.println(x.getCreatedAt() + "||" + x.getCourseName());
 //            }
-            CourseDTO c = new CourseDTO();
-            c.setCourseName("lalaala");
-            c.setTeacherID(1);
-            c.setCategoryID(1);
-            c.setDescription("123123");
-            c.setTuitionFee(3.2132133E7);
-            c.setImageUrl("12331");
-            c.setStartDate(new Date());
-            c.setEndDate(new Date());
-            c.setCreatedAt(new Date());
-            c.setCreatedBy(31);
-            c.setLastUpdateDate(new Date());
-            c.setLastUpdateUser(31);
-            c.setStatus("active");
-            c.setLevelID(1);
-            c.setSlot(0);
-            c.setSoldCount(5);
-            c.setCourseID(48);
-//            System.out.println(c);
-            System.out.println(new CourseDAO().upadte(c));
+//            CourseDTO c = new CourseDTO();
+//            c.setCourseName("lalaala");
+//            c.setTeacherID(1);
+//            c.setCategoryID(1);
+//            c.setDescription("123123");
+//            c.setTuitionFee(3.2132133E7);
+//            c.setImageUrl("12331");
+//            c.setStartDate(new Date());
+//            c.setEndDate(new Date());
+//            c.setCreatedAt(new Date());
+//            c.setCreatedBy(31);
+//            c.setLastUpdateDate(new Date());
+//            c.setLastUpdateUser(31);
+//            c.setStatus("active");
+//            c.setLevelID(1);
+//            c.setSlot(0);
+//            c.setSoldCount(5);
+//            c.setCourseID(48);
+////            System.out.println(c);
+//            System.out.println(new CourseDAO().upadte(c));
+            System.out.println(new CourseDAO().find(10));
         } catch (Exception ex) {
             Logger.getLogger(CourseDAO.class.getName()).log(Level.SEVERE, null, ex);
         }

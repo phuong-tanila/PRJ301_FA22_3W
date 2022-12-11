@@ -26,4 +26,8 @@ public class UserDTO {
     private String phone;
     private String email;
     private String role;
+    
+    public boolean isAdmin(){
+        return role.equalsIgnoreCase("AD");
+    }
 }

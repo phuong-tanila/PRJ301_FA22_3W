@@ -18,9 +18,14 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "MainController", urlPatterns = {"/MainController"})
 public class MainController extends HttpServlet {
+
     private final String HOME_CONTROLLER = "HomeController";
     private final String LOGIN_CONTROLLER = "LoginController";
     private final String SEARCH_CONTROLLER = "SearchController";
+    private final String CART_CONTROLLER = "CartController";
+    private final String PRODUCT_DETAIL_CONTROLLER = "CourseDetailController";
+    private final String LOGOUT_CONTROLLER = "LogoutController";
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -34,12 +39,12 @@ public class MainController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String action = request.getParameter("btnAction");
-        
-        String url = "";
-        
-        if(action == null || action.isEmpty()) {
+
+        String url = HOME_CONTROLLER;
+
+        if (action == null || action.isEmpty()) {
             action = "home";
-        }else {
+        } else {
             action = action.toLowerCase();
         }
         System.out.println("action: " + action);
@@ -47,13 +52,25 @@ public class MainController extends HttpServlet {
             case "login": {
                 url = LOGIN_CONTROLLER;
                 break;
-            }case "home" : {
+            }
+            case "home": {
                 url = HOME_CONTROLLER;
                 break;
             }
-            case "search" : {
+            case "search": {
                 url = SEARCH_CONTROLLER;
-                 break;
+                break;
+            }
+            case "detail": {
+                url = PRODUCT_DETAIL_CONTROLLER;
+                break;
+            }
+            case "cart": {
+                url = CART_CONTROLLER;
+                break;
+            }case "logout": {
+                url = LOGOUT_CONTROLLER;
+                break;
             }
         }
         request.getRequestDispatcher(url).forward(request, response);

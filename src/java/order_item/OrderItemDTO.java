@@ -16,6 +16,6 @@ import lombok.ToString;
 public class OrderItemDTO {
     private int OrderID;
     private int courseID;
-    private int quantity;
+    private int quantity = 1;
     private int price;
 }

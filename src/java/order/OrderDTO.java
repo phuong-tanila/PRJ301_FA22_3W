@@ -6,10 +6,12 @@
 package order;
 
 import java.util.Date;
+import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import order_item.OrderItemDTO;
 
 /**
  *
@@ -25,4 +27,5 @@ public class OrderDTO {
     private int totalPrice;
     private String paymentMethod;
     private String paymentStatus;
+    private List<OrderItemDTO> items;
 }

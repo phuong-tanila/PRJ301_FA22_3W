@@ -15,6 +15,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import user.UserDAO;
 import user.UserDTO;
 
@@ -24,7 +25,8 @@ import user.UserDTO;
  */
 @WebServlet(name = "LoginController", urlPatterns = {"/LoginController"})
 public class LoginController extends HttpServlet {
-
+    private final String HOME_CONTROLLER = "HomeController";
+    private final String LOGIN_CONTROLLER = "LoginController";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -39,13 +41,18 @@ public class LoginController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
+            String url = HOME_CONTROLLER;
             UserDAO uDAO = new UserDAO();
             String username = request.getParameter("username");
             String password = request.getParameter("password");
             UserDTO user = uDAO.login(username, password);
             if(user == null){
-                
+                url = LOGIN_CONTROLLER;
+            }else {
+                HttpSession session = request.getSession();
+                session.setAttribute("user", user);
             }
+            request.getRequestDispatcher(url).forward(request, response);
         } catch (SQLException ex) {
             Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
         }

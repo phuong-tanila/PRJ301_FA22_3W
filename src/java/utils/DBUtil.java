@@ -9,9 +9,10 @@ import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+//import org.apache.c
 /**
  *
  * @author 15tha
@@ -51,6 +52,8 @@ public class DBUtil implements Serializable {
     }
 
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
-        System.out.println(getConnection());
+        
+        java.util.Date date = new java.util.Date();
+        System.out.println(new java.sql.Date(date.getTime()));
     }
 }

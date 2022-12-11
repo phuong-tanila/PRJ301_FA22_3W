@@ -5,26 +5,24 @@
  */
 package controller;
 
-import course.CourseDAO;
-import course.CourseDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author 15tha
  */
-@WebServlet(name = "CourseDetail", urlPatterns = {"/CourseDetail"})
-public class CourseDetail extends HttpServlet {
-    private final String DETAIL_PAGE = "/WEB-INF/views/detail.jsp";
+@WebServlet(name = "LogoutController", urlPatterns = {"/LogoutController"})
+public class LogoutController extends HttpServlet {
+    
+    private final String HOME_CONTROLLER = "HomeController";
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -34,16 +32,15 @@ public class CourseDetail extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            String id = request.getParameter("id");
-            CourseDTO course = new CourseDAO().find(Integer.parseInt(id));
-            request.setAttribute("course", course);
-            request.getRequestDispatcher(DETAIL_PAGE).forward(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(CourseDetail.class.getName()).log(Level.SEVERE, null, ex);
+            /* TODO output your page here. You may use following sample code. */
+            request.getSession().invalidate();
+//            session
+            response.sendRedirect(HOME_CONTROLLER);
         }
     }
 

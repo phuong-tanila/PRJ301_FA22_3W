@@ -5,35 +5,22 @@
  */
 package controller;
 
-import category.CategoryDAO;
-import category.CategoryDTO;
-import course.CourseDAO;
-import course.CourseDTO;
+import com.github.javafaker.Faker;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import level.LevelDAO;
-import level.LevelDTO;
-import user.UserDAO;
-import user.UserDTO;
 
 /**
  *
  * @author 15tha
  */
-@WebServlet(name = "HomeController", urlPatterns = {"/HomeController"})
-public class HomeController extends HttpServlet {
-    private String MAIN_PAGE = "index.jsp";
+@WebServlet(name = "Test", urlPatterns = {"/Test"})
+public class Test extends HttpServlet {
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -46,36 +33,13 @@ public class HomeController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url = MAIN_PAGE;
         try (PrintWriter out = response.getWriter()) {
-            HttpSession session = request.getSession();
-            UserDTO u = (UserDTO) session.getAttribute("user");
-            if(u != null){
-                request.setAttribute("user", u);
-            }
-            UserDAO uDAO = new UserDAO();
-            LevelDAO levelDAO = new LevelDAO();
-            List<CourseDTO> topSellerCourse = new CourseDAO().getTopSeller();
-            List<UserDTO> teacherList = new ArrayList<>();
-            List<LevelDTO> levelList = new ArrayList<>();
-            List<CategoryDTO> cateList = new ArrayList<>();
-            
-            
-            for (CourseDTO c : topSellerCourse) {
-                teacherList.add(uDAO.find(Integer.toString(c.getTeacherID())));
-                levelList.add(new LevelDAO().find(c.getLevelID()));
-                cateList.add(new CategoryDAO().find(c.getCategoryID()));
-            }
-            request.setAttribute("topSellerCourse", topSellerCourse);
-            request.setAttribute("teacherList", teacherList);
-            request.setAttribute("levelList", levelList);
-            request.setAttribute("cateList", cateList);
-            request.getRequestDispatcher(url).forward(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
+            /* TODO output your page here. You may use following sample code. */
+            System.out.println("a " + request.getParameter("a"));
+            System.out.println("b " + request.getParameter("b"));
         }
-        
     }
+    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

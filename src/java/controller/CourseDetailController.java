@@ -6,14 +6,11 @@
 package controller;
 
 import category.CategoryDAO;
-import category.CategoryDTO;
 import course.CourseDAO;
 import course.CourseDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -23,7 +20,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import level.LevelDAO;
-import level.LevelDTO;
+import order.OrderDTO;
+import order_item.OrderItemDTO;
 import user.UserDAO;
 import user.UserDTO;
 
@@ -31,9 +29,12 @@ import user.UserDTO;
  *
  * @author 15tha
  */
-@WebServlet(name = "HomeController", urlPatterns = {"/HomeController"})
-public class HomeController extends HttpServlet {
-    private String MAIN_PAGE = "index.jsp";
+@WebServlet(name = "CourseDetailController", urlPatterns = {"/CourseDetailController"})
+public class CourseDetailController extends HttpServlet {
+
+    private final String DETAIL_PAGE = "/WEB-INF/views/detail.jsp";
+    private final String INVALID_PAGE = "404.html";
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -46,35 +47,35 @@ public class HomeController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url = MAIN_PAGE;
+        String url = INVALID_PAGE;
         try (PrintWriter out = response.getWriter()) {
             HttpSession session = request.getSession();
-            UserDTO u = (UserDTO) session.getAttribute("user");
-            if(u != null){
-                request.setAttribute("user", u);
+            String idStr = request.getParameter("id");
+            int courseID = 0;
+            if (idStr != null) {
+                courseID = Integer.parseInt(idStr);
+                CourseDTO course = new CourseDAO().find(courseID);
+                OrderDTO cart = (OrderDTO) session.getAttribute("cart");
+                boolean inCart = false;
+                if (cart != null) {
+                    for (OrderItemDTO item : cart.getItems()) {
+                        if (item.getCourseID() == courseID) {
+                            inCart = true;
+                        }
+                    }
+                }
+                request.setAttribute("inCart", inCart);
+                request.setAttribute("course", course);
+                request.setAttribute("level", new LevelDAO().find(course.getLevelID()));
+                request.setAttribute("category", new CategoryDAO().find(course.getCategoryID()));
+                UserDTO user = new UserDAO().find(Integer.toString(course.getTeacherID()));
+                request.setAttribute("teacherName", user.getFullName());
+                url = DETAIL_PAGE;
             }
-            UserDAO uDAO = new UserDAO();
-            LevelDAO levelDAO = new LevelDAO();
-            List<CourseDTO> topSellerCourse = new CourseDAO().getTopSeller();
-            List<UserDTO> teacherList = new ArrayList<>();
-            List<LevelDTO> levelList = new ArrayList<>();
-            List<CategoryDTO> cateList = new ArrayList<>();
-            
-            
-            for (CourseDTO c : topSellerCourse) {
-                teacherList.add(uDAO.find(Integer.toString(c.getTeacherID())));
-                levelList.add(new LevelDAO().find(c.getLevelID()));
-                cateList.add(new CategoryDAO().find(c.getCategoryID()));
-            }
-            request.setAttribute("topSellerCourse", topSellerCourse);
-            request.setAttribute("teacherList", teacherList);
-            request.setAttribute("levelList", levelList);
-            request.setAttribute("cateList", cateList);
             request.getRequestDispatcher(url).forward(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CourseDetailController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

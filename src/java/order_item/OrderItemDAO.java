@@ -53,7 +53,7 @@ public class OrderItemDAO {
         stm.setInt(1, o.getOrderID());
         stm.setInt(2, o.getCourseID());
         stm.setInt(3, o.getQuantity());
-        stm.setInt(4, o.getPrice());
+        stm.setDouble(4, o.getPrice());
         return stm.executeUpdate() == 1;
     }
     public static void main(String[] args) {

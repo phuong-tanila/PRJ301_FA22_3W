@@ -73,7 +73,7 @@ public class CartController extends HttpServlet {
                         }
                         int courseID = Integer.parseInt(courseIDStr);
                         newItem.setCourseID(courseID);
-                        int price = new CourseDAO().find(courseID).getTuitionFee();
+                        double price = new CourseDAO().find(courseID).getTuitionFee();
                         newItem.setPrice(price);
                         newItem.setQuantity(1);
                         ArrayList tmpList = (ArrayList) cart.getItems();

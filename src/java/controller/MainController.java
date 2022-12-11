@@ -29,6 +29,7 @@ public class MainController extends HttpServlet {
     private final String CART_CONTROLLER = "CartController";
     private final String PRODUCT_DETAIL_CONTROLLER = "CourseDetailController";
     private final String LOGOUT_CONTROLLER = "LogoutController";
+    private final String ADMIN_CONTROLLER = "AdminController";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -73,6 +74,9 @@ public class MainController extends HttpServlet {
                 break;
             }case "logout": {
                 url = LOGOUT_CONTROLLER;
+                break;
+            }case "admin": {
+                url = ADMIN_CONTROLLER;
                 break;
             }
         }

@@ -16,7 +16,7 @@ public class CourseDTO {
     private int categoryID;
     private String description;
     private int slot;
-    private int tuitionFee;
+    private double tuitionFee;
     private String imageUrl;
     private Date startDate;
     private Date endDate;

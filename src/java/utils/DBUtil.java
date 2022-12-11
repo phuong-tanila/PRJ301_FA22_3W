@@ -9,10 +9,14 @@ import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 //import org.apache.c
+
 /**
  *
  * @author 15tha
@@ -52,8 +56,18 @@ public class DBUtil implements Serializable {
     }
 
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
-        
-        java.util.Date date = new java.util.Date();
-        System.out.println(new java.sql.Date(date.getTime()));
+
+//        java.util.Date date = new java.util.Date("15/12/2022");
+//        System.out.println(new java.sql.Date(date.getTime()));
+        SimpleDateFormat clientFormat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat serverFormat = new SimpleDateFormat("YYYY-MM-DD");
+        Date d = null;
+        try {
+            d = clientFormat.parse("19/12/2022");
+            System.out.println("a " + new java.sql.Date(d.getTime()));
+        } catch (ParseException ex) {
+            Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.println(d);
     }
 }

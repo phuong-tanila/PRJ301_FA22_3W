@@ -37,6 +37,7 @@ public class Test extends HttpServlet {
             /* TODO output your page here. You may use following sample code. */
             System.out.println("a " + request.getParameter("a"));
             System.out.println("b " + request.getParameter("b"));
+            System.out.println("c " + request.getParameter("lmao"));
         }
     }
     

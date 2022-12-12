@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import order_item.OrderItemDAO;
 import order_item.OrderItemDTO;
 import utils.DBUtil;
@@ -23,9 +24,9 @@ import utils.DBUtil;
  * @author 15tha
  */
 public class OrderDAO {
-
+    
     private static List<OrderDTO> list;
-
+    
     public List<OrderDTO> findAll() throws SQLException {
         if (list == null || list.size() != count()) {
             Connection conn = DBUtil.getConnection();
@@ -51,7 +52,36 @@ public class OrderDAO {
         }
         return list;
     }
-
+    
+    public List<OrderDTO> findAllOrderByUser(int userId) throws SQLException {
+        if (list == null || list.size() != count()) {
+            Connection conn = DBUtil.getConnection();
+            PreparedStatement stm = conn.prepareStatement("SELECT [OrderID]\n"
+                    + "      ,[UserID]\n"
+                    + "      ,[Buy_Date]\n"
+                    + "      ,[Total_Price]\n"
+                    + "      ,[Payment_Method]\n"
+                    + "      ,[Payment_Status]\n"
+                    + "  FROM [TKK_Piano].[dbo].[Order]"
+                    + "  Where UserID = ?");
+            stm.setInt(1, userId);
+            ResultSet rs = stm.executeQuery();
+            List<OrderDTO> tmpList = new ArrayList<>();
+            while (rs.next()) {
+                OrderDTO order = new OrderDTO();
+                order.setOrderID(rs.getInt("OrderID"));
+                order.setUserID(rs.getInt("UserID"));
+                order.setBuyDate(rs.getDate("Buy_Date"));
+                order.setPaymentMethod(rs.getString("Payment_Method"));
+                order.setPaymentStatus(rs.getString("Payment_Status"));
+                order.setItems(new OrderItemDAO().getAll(userId));
+                tmpList.add(order);
+            }
+            list = tmpList;
+        }
+        return list;
+    }
+    
     public boolean createOrder(OrderDTO o) throws SQLException {
         Connection conn = DBUtil.getConnection();
         PreparedStatement stm = conn.prepareStatement("INSERT INTO [Order]\n"
@@ -81,7 +111,7 @@ public class OrderDAO {
         }
         return false;
     }
-
+    
     public int getCreatedOrderID(OrderDTO o) throws SQLException {
         String sql = "SELECT [OrderID]\n"
                 + "  FROM [TKK_Piano].[dbo].[Order]\n"
@@ -103,7 +133,7 @@ public class OrderDAO {
         }
         return -1;
     }
-
+    
     public int count() throws SQLException {
         Connection conn = DBUtil.getConnection();
         PreparedStatement stm = conn.prepareStatement("SELECT count([OrderID])\n"
@@ -111,16 +141,11 @@ public class OrderDAO {
         ResultSet rs = stm.executeQuery();
         return rs.getInt(1);
     }
-
+    
     public static void main(String[] args) {
         OrderDAO oDAO = new OrderDAO();
         try {
-//            OrderDTO o = new OrderDTO();
-////            o.setUserID(93);
-////            o.setBuyDate(new Date(2022  , 12, 11));
-////            o.setPaymentMethod("paypal");
-////            o.setPaymentStatus("1");
-//            System.out.println(oDAO.findAll());
+            System.out.println(oDAO.findAllOrderByUser(1));
         } catch (Exception ex) {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -14,6 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
+import order.OrderDAO;
+import order.OrderDTO;
 import utils.DBUtil;
 
 /**
@@ -27,10 +30,12 @@ public class OrderItemDAO {
                 + "      ,[CourseID]\n"
                 + "      ,[Quantity]\n"
                 + "      ,[Price]\n"
-                + "  FROM [Order_Detail]";
+                + "  FROM [Order_Detail]"
+                + "  WHERE [OrderID] = ?";
         Connection conn = DBUtil.getConnection();
 
         PreparedStatement stm = conn.prepareStatement(sql);
+        stm.setInt(1, orderID);
         ResultSet rs = stm.executeQuery();
         List<OrderItemDTO> list = new ArrayList<>();
         while (rs.next()) {
@@ -56,13 +61,14 @@ public class OrderItemDAO {
         stm.setDouble(4, o.getPrice());
         return stm.executeUpdate() == 1;
     }
+
     public static void main(String[] args) {
         OrderItemDAO oiDAO = new OrderItemDAO();
         OrderItemDTO o = new OrderItemDTO();
-        o.setOrderID(1);
-        o.setCourseID(3);
+
         try {
-            System.out.println(oiDAO.create(o));
+//            System.out.println(oiDAO.create(o));
+            System.out.println(oiDAO.getAll(1));
         } catch (SQLException ex) {
             Logger.getLogger(OrderItemDAO.class.getName()).log(Level.SEVERE, null, ex);
         }

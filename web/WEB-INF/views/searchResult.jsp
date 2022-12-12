@@ -8,10 +8,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Home page</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
-        <script src="https://kit.fontawesome.com/1aa19ebad3.js" crossorigin="anonymous"></script>
-        <style>
+       <style>
             .card{ 
                 padding: 0px !important;
                 margin: 10px 0px!important;
@@ -29,34 +26,8 @@
         </style>
     </head>
     <body style="height: 100vh;">
-        <nav class="navbar navbar-expand-lg bg-light ">
-            <div class="container d-flex">
-                <a class="navbar-brand" href="<c:url value="/"/>">Home</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <form class="d-flex justify-content-center w-50" role="search" action="MainController" method="GET">
-                    <input class="form-control me-2 " type="search" placeholder="Search" aria-label="Search" name="searchValue">
-                    <button class="btn btn-outline-success" type="submit" name="btnAction" value="search">
-                        <i class="fa-solid fa-magnifying-glass"></i></button>
-                </form>
-                <button type="button" onclick="window.location.href = '<c:url value="login.html"/>'"class="btn btn-primary">Login</button>
-            </div>
-        </nav>
-
-
-        <div class="d-flex justify-content-center g-2">
-            <form action="SearchController">   
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination">
-                        <c:forEach var="c" varStatus="loop" items="${Category}">                         
-                            <li class="page-item"><a class="page-link" href="<c:url value="/SearchController?cateId=${c.cateID}"/>">${c.cateName}</a></li>    
-                            </c:forEach> 
-                    </ul>
-                </nav>
-            </form>
-        </div>
+        
+        <jsp:include page="headerLogin.jsp"/>
 
         <div class="container">
             <div class="row justify-content-around">
@@ -64,7 +35,7 @@
                 <c:forEach items="${list}" var="course" varStatus="i">
 
                     <div class="card col-md-3">
-                        <a href="<c:url value="/CourseDetail?id=${course.courseID}" />" style="text-decoration: none; display: inline-block;">
+                        <a href="<c:url value="/CourseDetailController?id=${course.courseID}" />" style="text-decoration: none; display: inline-block;">
                             <img style="height: 200px;" src="${course.imageUrl}" class="card-img-top" alt="">
                             <div class="card-body">
                                 <h5 class="card-title card-title-custom" data-toggle="tooltip" data-placement="top" title="${course.courseName}">${course.courseName}</h5>
@@ -114,51 +85,8 @@
                 </form>
             </div></c:if> 
 
+                
+        <jsp:include page="footer.html"/>
 
-        <footer style="width: 100%;bottom: 0;" class="bg-dark text-center text-white">
-            <!-- Grid container -->
-            <div class="container p-4">
-                <!-- Section: Social media -->
-                <section class="mb-4">
-                    <!-- Facebook -->
-                    <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"
-                       ><i class="fab fa-facebook-f"></i
-                        ></a>
-
-                    <!-- Twitter -->
-                    <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"
-                       ><i class="fab fa-twitter"></i
-                        ></a>
-
-                    <!-- Google -->
-                    <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"
-                       ><i class="fab fa-google"></i
-                        ></a>
-
-                    <!-- Instagram -->
-                    <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"
-                       ><i class="fab fa-instagram"></i
-                        ></a>
-
-                    <!-- Linkedin -->
-                    <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"
-                       ><i class="fab fa-linkedin-in"></i
-                        ></a>
-
-                    <!-- Github -->
-                    <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"
-                       ><i class="fab fa-github"></i
-                        ></a>
-                </section>
-                <!-- Section: Links -->
-            </div>
-            <!-- Grid container -->
-
-            <!-- Copyright -->
-            <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-                @CopyRight From 4T1P
-            </div>
-            <!-- Copyright -->
-        </footer>
     </body>
 </html>

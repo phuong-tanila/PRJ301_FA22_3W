@@ -31,6 +31,7 @@ public class MainController extends HttpServlet {
     private final String LOGOUT_CONTROLLER = "LogoutController";
     private final String ADMIN_CONTROLLER = "AdminController";
     private final String AJAX_CONTROLLER = "AjaxController";
+    private final String TRACKING_CONTROLLER = "TrackingController";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -45,7 +46,12 @@ public class MainController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String action = request.getParameter("btnAction");
-
+        try {
+            request.setAttribute("Category", new CategoryDAO().getAll());
+        } catch (SQLException ex) {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         String url = HOME_CONTROLLER;
         if (action == null || action.isEmpty()) {
             action = "home";
@@ -81,6 +87,9 @@ public class MainController extends HttpServlet {
                 break;
             }case "ajax": {
                 url = AJAX_CONTROLLER;
+            }
+            case "tracking": {
+                url = TRACKING_CONTROLLER;
             }
         }
         request.getRequestDispatcher(url).forward(request, response);

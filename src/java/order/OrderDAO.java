@@ -139,13 +139,16 @@ public class OrderDAO {
         PreparedStatement stm = conn.prepareStatement("SELECT count([OrderID])\n"
                 + "  FROM [TKK_Piano].[dbo].[Order]");
         ResultSet rs = stm.executeQuery();
-        return rs.getInt(1);
+        if(rs.next())
+            return rs.getInt(1);
+        
+        return -1;
     }
     
     public static void main(String[] args) {
         OrderDAO oDAO = new OrderDAO();
         try {
-            System.out.println(oDAO.findAllOrderByUser(1));
+            System.out.println(oDAO.findAllOrderByUser(13));
         } catch (Exception ex) {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
         }

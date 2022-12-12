@@ -55,7 +55,7 @@
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                 <c:if test='${user.role != "AD" }'>
-                                    <li><a class="dropdown-item" href="<c:url value="MainController?btnAction=orderTracking"/>">Order tracking</a></li>
+                                    <li><a class="dropdown-item" href="<c:url value="MainController?btnAction=tracking&userId=${user.userID}"/>">Order tracking</a></li>
                                     </c:if>
                                     <c:if test='${user.role == "AD" }'>
                                     <li><a class="dropdown-item" href="<c:url value="MainController?btnAction=admin&func=showCreate"/>">Admin</a></li>
@@ -72,8 +72,6 @@
                 </div>
             </div>
         </nav>
-
-<!--        <button type="button" onclick="window.location.href = '<c:url value="MainController?btnAction=tracking&&userId=${user}"/>'"class="btn btn-primary">hello</button>-->
 
 
     </body>

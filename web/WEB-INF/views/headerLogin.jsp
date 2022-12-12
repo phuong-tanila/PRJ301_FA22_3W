@@ -33,16 +33,16 @@
                             <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Category
                             </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown">
                                 <c:forEach var="c" varStatus="loop" items="${Category}">                         
-                                    <li class=""><a class="dropdown-item" href="<c:url value="/SearchController?cateId=${c.cateID}"/>">${c.cateName}</a></li>    
+                                    <li><a class="dropdown-item text-white" href="<c:url value="/SearchController?cateId=${c.cateID}"/>">${c.cateName}</a></li>    
                                     </c:forEach>
                             </ul>
                         </li>
                     </ul>
                     <form class="d-flex w-100 me-4">
                         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="searchValue">
-                        <button class="btn btn-outline-success" type="submit" name="btnAction" value="search">
+                        <button class="btn btn-outline-warning" type="submit" name="btnAction" value="search">
                             <i class="fa-solid fa-magnifying-glass"></i></button>    
                     </form>
                     <c:if test="${user != null}">
@@ -66,8 +66,8 @@
                         </div>
                     </c:if>
                     <c:if test="${user == null}">
-                        <button type="button" onclick="window.location.href = '<c:url value="MainController?btnAction=cart&func=showCart"/>'"class="btn btn-primary"><i class="fa-solid fa-cart-shopping"></i></button>
-                        <button type="button" onclick="window.location.href = '<c:url value="login.jsp"/>'"class="btn btn-primary">Login</button>
+                        <button type="button" onclick="window.location.href = '<c:url value="MainController?btnAction=cart&func=showCart"/>'"class="btn btn-outline-warning me-4"><i class="fa-solid fa-cart-shopping"></i></button>
+                        <button type="button" onclick="window.location.href = '<c:url value="login.jsp"/>'"class="btn btn-warning">Login</button>
                     </c:if>
                 </div>
             </div>

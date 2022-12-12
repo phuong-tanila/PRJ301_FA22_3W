@@ -58,7 +58,12 @@
                                 <div class="divider d-flex align-items-center my-4">
                                     <p class="text-center fw-bold mx-3 mb-0">Or</p>
                                 </div>
-
+                                
+                                <!-- Sign with Google -->
+                                <div>
+                                    <input type="submit" value="" /><a href=""></a>
+                                </div>
+                                
                                 <!-- Email input -->
                                 <div class="form-outline mb-4">
                                     <input type="text" required id="form3Example3" name="username" class="form-control form-control-lg"
@@ -94,32 +99,32 @@
                 <!-- Section: Social media -->
                 <section class="mb-4">
                     <!-- Facebook -->
-                    <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"
+                    <a class="btn btn-outline-warning btn-floating m-1" href="#!" role="button"
                        ><i class="fab fa-facebook-f"></i
                         ></a>
 
                     <!-- Twitter -->
-                    <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"
+                    <a class="btn btn-outline-warning btn-floating m-1" href="#!" role="button"
                        ><i class="fab fa-twitter"></i
                         ></a>
 
                     <!-- Google -->
-                    <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"
+                    <a class="btn btn-outline-warning btn-floating m-1" href="#!" role="button"
                        ><i class="fab fa-google"></i
                         ></a>
 
                     <!-- Instagram -->
-                    <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"
+                    <a class="btn btn-outline-warning btn-floating m-1" href="#!" role="button"
                        ><i class="fab fa-instagram"></i
                         ></a>
 
                     <!-- Linkedin -->
-                    <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"
+                    <a class="btn btn-outline-warning btn-floating m-1" href="#!" role="button"
                        ><i class="fab fa-linkedin-in"></i
                         ></a>
 
                     <!-- Github -->
-                    <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"
+                    <a class="btn btn-outline-warning btn-floating m-1" href="#!" role="button"
                        ><i class="fab fa-github"></i
                         ></a>
                 </section>
@@ -129,7 +134,7 @@
 
             <!-- Copyright -->
             <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-                @CopyRight From 4T1P
+                @CopyRight From 3T2P
             </div>
             <!-- Copyright -->
         </footer>

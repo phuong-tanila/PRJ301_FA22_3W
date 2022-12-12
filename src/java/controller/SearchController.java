@@ -6,10 +6,12 @@
 package controller;
 
 import category.CategoryDAO;
+import category.CategoryDTO;
 import course.CourseDAO;
 import course.CourseDTO;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,6 +20,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import level.LevelDAO;
+import level.LevelDTO;
+import user.UserDAO;
+import user.UserDTO;
 
 /**
  *
@@ -45,6 +51,11 @@ public class SearchController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String url = ErroPage;
         String searchValue = request.getParameter("searchValue");
+
+        List<UserDTO> teacherList = new ArrayList<>();
+        List<LevelDTO> levelList = new ArrayList<>();
+        List<CategoryDTO> cateList = new ArrayList<>();
+        UserDAO uDAO = new UserDAO();
         if (searchValue != null) {
             int Numpage;
             int page;
@@ -68,12 +79,20 @@ public class SearchController extends HttpServlet {
                     } else {
                         Numpage = 0;
                     }
+                    for (CourseDTO c : dto) {
+                        teacherList.add(uDAO.find(Integer.toString(c.getTeacherID())));
+                        levelList.add(new LevelDAO().find(c.getLevelID()));
+                        cateList.add(new CategoryDAO().find(c.getCategoryID()));
+                    }
+                    request.setAttribute("teacherList", teacherList);
+                    request.setAttribute("levelList", levelList);
+                    request.setAttribute("cateList", cateList);
+
                     request.setAttribute("Category", new CategoryDAO().getAll());
                     request.setAttribute("Numpage", Numpage);
                     request.setAttribute("list", dto);
                     request.setAttribute("searchValue", searchValue);
                     url = SEARCH_PAGE;
-                    request.getRequestDispatcher(url).forward(request, response);
                 } catch (SQLException ex) {
                     Logger.getLogger(SearchController.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -91,6 +110,16 @@ public class SearchController extends HttpServlet {
                     } else {
                         Numpage = 0;
                     }
+
+                    for (CourseDTO c : dto) {
+                        teacherList.add(uDAO.find(Integer.toString(c.getTeacherID())));
+                        levelList.add(new LevelDAO().find(c.getLevelID()));
+                        cateList.add(new CategoryDAO().find(c.getCategoryID()));
+                    }
+                    request.setAttribute("teacherList", teacherList);
+                    request.setAttribute("levelList", levelList);
+                    request.setAttribute("cateList", cateList);
+
                     request.setAttribute("Category", new CategoryDAO().getAll());
                     request.setAttribute("Numpage", Numpage);
                     request.setAttribute("list", dto);
@@ -104,7 +133,7 @@ public class SearchController extends HttpServlet {
         }
 
         if (request.getParameter("cateId") != null) {
-            
+
             int cateId = Integer.parseInt(request.getParameter("cateId"));
             int Numpage;
             int page;
@@ -131,13 +160,22 @@ public class SearchController extends HttpServlet {
                     } else {
                         Numpage = 0;
                     }
+
+                    for (CourseDTO c : dto) {
+                        teacherList.add(uDAO.find(Integer.toString(c.getTeacherID())));
+                        levelList.add(new LevelDAO().find(c.getLevelID()));
+                        cateList.add(new CategoryDAO().find(c.getCategoryID()));
+                    }
+                    request.setAttribute("teacherList", teacherList);
+                    request.setAttribute("levelList", levelList);
+                    request.setAttribute("cateList", cateList);
+
                     request.setAttribute("Category", new CategoryDAO().getAll());
                     request.setAttribute("Numpage", Numpage);
                     System.out.println(Numpage);
                     request.setAttribute("list", dto);
                     request.setAttribute("cateId", cateId);
                     url = SEARCH_PAGE;
-                    request.getRequestDispatcher(url).forward(request, response);
                 } catch (SQLException ex) {
                     Logger.getLogger(SearchController.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -155,6 +193,16 @@ public class SearchController extends HttpServlet {
                     } else {
                         Numpage = 0;
                     }
+
+                    for (CourseDTO c : dto) {
+                        teacherList.add(uDAO.find(Integer.toString(c.getTeacherID())));
+                        levelList.add(new LevelDAO().find(c.getLevelID()));
+                        cateList.add(new CategoryDAO().find(c.getCategoryID()));
+                    }
+                    request.setAttribute("teacherList", teacherList);
+                    request.setAttribute("levelList", levelList);
+                    request.setAttribute("cateList", cateList);
+
                     request.setAttribute("Category", new CategoryDAO().getAll());
                     request.setAttribute("Numpage", Numpage);
                     request.setAttribute("list", dto);

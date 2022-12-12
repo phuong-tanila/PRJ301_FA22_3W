@@ -45,12 +45,35 @@
                         <button class="btn btn-outline-success" type="submit" name="btnAction" value="search">
                             <i class="fa-solid fa-magnifying-glass"></i></button>    
                     </form>
-                    <button class="btn btn-primary" type="button" onclick="window.location.href = '<c:url value="login.html"/>'">Login</button>
+                    <c:if test="${user != null}">
+                        <c:if test='${user.role != "AD" }'>
+                            <button type="button" onclick="window.location.href = '<c:url value="MainController?btnAction=cart&func=showCart"/>'"class="btn btn-primary"><i class="fa-solid fa-cart-shopping"></i></button>
+                            </c:if>
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                ${sessionScope.user.fullName}
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                <c:if test='${user.role != "AD" }'>
+                                    <li><a class="dropdown-item" href="<c:url value="MainController?btnAction=orderTracking"/>">Order tracking</a></li>
+                                    </c:if>
+                                    <c:if test='${user.role == "AD" }'>
+                                    <li><a class="dropdown-item" href="<c:url value="MainController?btnAction=admin&func=showCreate"/>">Admin</a></li>
+                                    </c:if>
+
+                                <li><a class="dropdown-item" href='<c:url value="MainController?btnAction=logout"/>'>Log out</a></li>
+                            </ul>
+                        </div>
+                    </c:if>
+                    <c:if test="${user == null}">
+                        <button type="button" onclick="window.location.href = '<c:url value="MainController?btnAction=cart&func=showCart"/>'"class="btn btn-primary"><i class="fa-solid fa-cart-shopping"></i></button>
+                        <button type="button" onclick="window.location.href = '<c:url value="login.jsp"/>'"class="btn btn-primary">Login</button>
+                    </c:if>
                 </div>
             </div>
         </nav>
 
-        <button type="button" onclick="window.location.href = '<c:url value="MainController?btnAction=tracking"/>'"class="btn btn-primary">hello</button>
+<!--        <button type="button" onclick="window.location.href = '<c:url value="MainController?btnAction=tracking&&userId=${user}"/>'"class="btn btn-primary">hello</button>-->
 
 
     </body>

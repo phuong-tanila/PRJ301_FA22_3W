@@ -18,6 +18,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import user.UserDAO;
 
 /**
  *
@@ -41,23 +42,30 @@ public class AjaxController extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             String func = request.getParameter("func");
+            
             if (func != null) {
                 switch (func) {
                     case "getCourse": {
                         int courseID = Integer.parseInt(request.getParameter("ID"));
                         try {
-                            CourseDTO c = new CourseDAO().find(courseID);
+                            CourseDAO cDAO = new CourseDAO();
+                            CourseDTO c = cDAO.find(courseID);
                             out.println(new Gson().toJson(c));
                         } catch (SQLException ex) {
                             Logger.getLogger(AjaxController.class.getName()).log(Level.SEVERE, null, ex);
                         }
                         
                         break;
+                    }case "checkEmailExisted": {
+                        String email = request.getParameter("email");
+                        out.print(new Gson().toJson(new UserDAO().findByEmail(email)));
                     }
                     default:
                         throw new AssertionError();
                 }
             }
+        } catch (SQLException ex) {
+            Logger.getLogger(AjaxController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

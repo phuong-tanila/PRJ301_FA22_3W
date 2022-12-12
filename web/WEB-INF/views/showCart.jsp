@@ -286,7 +286,7 @@
                                                                             }).then(res => res.json()).then(res => price = res.result)
                                                                             paypal_sdk.Buttons({
                                                                                 onInit: function (data, actions) {
-                                                                                    if (document.querySelector('.cart-size') == 0 ) {
+                                                                                    if (document.querySelector('.cart-size') == 0) {
                                                                                         actions.disable();
                                                                                     } else {
                                                                                         actions.enable();
@@ -341,8 +341,22 @@
                                                                         emailEl.style.border = '1.5px solid red';
                                                                         document.querySelector(".email-noti").innerHTML = "Invalid email";
                                                                     } else {
-                                                                        document.querySelector(".email-noti").innerHTML = "";
-                                                                        emailEl.style.border = '1px solid #ced4da';
+                                                                        let user;
+                                                                        fetch('MainController?btnAction=ajax&func=checkEmailExisted&email=' + email)
+                                                                                .then(res => res.json())
+                                                                                .then(res => {
+                                                                                    user = res;
+                                                                                    console.log(user)
+                                                                                    if (user == null) {
+                                                                                        document.querySelector(".email-noti").innerHTML = "";
+                                                                                        emailEl.style.border = '1px solid #ced4da';
+                                                                                    } else {
+                                                                                        emailEl.style.border = '1.5px solid red';
+                                                                                        errorList.push(1)
+                                                                                        document.querySelector(".email-noti").innerHTML = "This email is existed in our system";
+                                                                                    }
+                                                                                })
+
                                                                     }
                                                                     const phoneRegex = /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/;
                                                                     if (!phone.match(phoneRegex)) {
@@ -413,6 +427,7 @@
 //                                                                    }
                                                                     return errorList;
                                                                 }
+
             </script>
         </body>
 

@@ -61,7 +61,7 @@
                                 
                                 <!-- Sign with Google -->
                                 <div>
-                                    <input type="submit" value="" /><a href=""></a>
+                                    
                                 </div>
                                 
                                 <!-- Email input -->

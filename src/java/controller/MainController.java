@@ -87,6 +87,7 @@ public class MainController extends HttpServlet {
                 break;
             }case "ajax": {
                 url = AJAX_CONTROLLER;
+                break;
             }
             case "tracking": {
                 url = TRACKING_CONTROLLER;

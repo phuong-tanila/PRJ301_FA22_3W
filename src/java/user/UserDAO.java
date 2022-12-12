@@ -38,6 +38,14 @@ public class UserDAO {
         return stm.executeUpdate() == 1;
     }
 
+    public UserDTO findByEmail(String email) throws SQLException {
+        return getAll()
+                .stream()
+                .filter(i -> i.getEmail().equals(email))
+                .findFirst()
+                .orElse(null);
+    }
+
     public List<UserDTO> getAll() throws SQLException {
         Connection conn = DBUtil.getConnection();
         PreparedStatement stm = conn.prepareStatement("SELECT "
@@ -73,12 +81,12 @@ public class UserDAO {
                 .filter(user -> user.getFullName().equals(u.getFullName()) && user.getUsername().equals(u.getUsername()))
                 .findFirst()
                 .orElse(null);
-        if(tmpUser != null){
+        if (tmpUser != null) {
             return tmpUser.getUserID();
-        }return -1;
+        }
+        return -1;
     }
-    
-    
+
     public UserDTO find(String userID) throws SQLException {
         return getAll()
                 .stream()
@@ -86,7 +94,6 @@ public class UserDAO {
                 .findFirst()
                 .orElse(null);
     }
-    
 
     public UserDTO login(String username, String password) throws SQLException {
         return getAll()

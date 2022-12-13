@@ -58,7 +58,7 @@
         </div>    
 
         <c:if  test="${empty list}" >
-            <h1 style="text-align: center; color: #696969">Không tìm thấy sản phẩm!!</h1>
+            <h1 style="text-align: center; color: #696969">No products found!!!</h1>
         </c:if>
 
         <c:if test="${empty searchValue}" >

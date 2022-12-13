@@ -148,19 +148,7 @@ public class OrderDAO {
     public static void main(String[] args) throws SQLException {
         OrderDAO oDAO = new OrderDAO();
         try {
-<<<<<<< HEAD
-            System.out.println(new OrderDAO().findAllOrderByUser(5));
-=======
-            for (OrderDTO x : oDAO.findAllOrderByUser(1)) {
-                System.out.println("Order ID: " + x.getOrderID());
 
-                for (OrderItemDTO a : x.getItems()) {
-                    System.out.println(a.getCourseID());
-                }
-
-            }
-
->>>>>>> 1634adf9ecff6cbe9b87d245555dc904a34ace82
         } catch (Exception ex) {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
         }

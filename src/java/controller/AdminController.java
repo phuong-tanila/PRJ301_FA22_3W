@@ -62,19 +62,19 @@ public class AdminController extends HttpServlet {
                     throw new NullPointerException("Not admin user");
                 }
                 String func = request.getParameter("func");
-                if(func == null) {
+                if (func == null) {
                     func = "showCreate";
                 }
                 if (func.equals("showCreate") || func.equals("showUpdate")) {
-                    
+
                     List<UserDTO> teacherList = uDAO.getAll().stream().filter(teacher -> teacher.getRole().equals("TC")).collect(Collectors.toList());
                     request.setAttribute("teacherList", teacherList);
                     request.setAttribute("cateList", new CategoryDAO().getAll());
                     request.setAttribute("levelList", new LevelDAO().getAll());
-                    if(func.equals("showCreate")){
+                    if (func.equals("showCreate")) {
                         request.getRequestDispatcher(CREATE_COURSE).forward(request, response);
                         return;
-                    }else if(func.equals("showUpdate")){
+                    } else if (func.equals("showUpdate")) {
                         request.setAttribute("courseList", new Gson().toJson(courseDAO.getAll()));
                         request.getRequestDispatcher(UPDATE_COURSE).forward(request, response);
                     }
@@ -98,27 +98,23 @@ public class AdminController extends HttpServlet {
                     c.setLevelID(Integer.parseInt(request.getParameter("levelID")));
                     c.setLastUpdateUser(currentUser.getUserID());
                     c.setLastUpdateDate(new Date());
-                    
-                    
-                    
-                    
-                    
+
                     c.setCreatedAt(new Date());
                     switch (func) {
                         case "create": {
                             c.setSoldCount(0);
                             c.setCreatedBy(currentUser.getUserID());
                             c.setCreatedAt(new Date());
-//                            courseDAO.create(c);
+                            courseDAO.create(c);
                             System.out.println(c);
                             response.sendRedirect("MainController?btnAction=admin&func=showCreate");
-                            
+
                             break;
                         }
                         case "update": {
                             int courseID = Integer.parseInt(request.getParameter("courseID"));
                             CourseDTO oldCourse = courseDAO.find(courseID);
-                            
+
                             c.setCourseID(courseID);
                             c.setSoldCount(oldCourse.getSoldCount());
                             c.setCreatedBy(oldCourse.getCreatedBy());
@@ -142,7 +138,7 @@ public class AdminController extends HttpServlet {
             } catch (ParseException ex) {
                 Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
         }
     }
 

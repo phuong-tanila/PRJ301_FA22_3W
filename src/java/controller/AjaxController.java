@@ -42,7 +42,7 @@ public class AjaxController extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             String func = request.getParameter("func");
-            
+
             if (func != null) {
                 switch (func) {
                     case "getCourse": {
@@ -54,9 +54,10 @@ public class AjaxController extends HttpServlet {
                         } catch (SQLException ex) {
                             Logger.getLogger(AjaxController.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                        
+
                         break;
-                    }case "checkEmailExisted": {
+                    }
+                    case "checkEmailExisted": {
                         String email = request.getParameter("email");
                         out.print(new Gson().toJson(new UserDAO().findByEmail(email)));
                     }

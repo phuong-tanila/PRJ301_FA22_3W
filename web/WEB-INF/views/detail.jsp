@@ -155,17 +155,19 @@
                         <fmt:setLocale  value="vi_VN"/>
                         <div class="content__list--learned__item">
                             <i class="fa-regular fa-bookmark"></i>
-                            <span><strong>Subject: </strong>${category.cateName}</span>
+                            <span><strong>Course: </strong>${category.cateName}</span>
                         </div>
                         <div class="content__list--learned__item">
+                            <i class="fa-regular fa-calendar"></i>
+                            <span><strong>Start date: </strong><fmt:formatDate pattern="dd/MM/YYYY" value="${course.startDate}"/> - <fmt:formatDate pattern="dd/MM/YYYY" value="${course.endDate}"/></span>
                         </div>
                         <div class="content__list--learned__item">
                             <i class="fa-solid fa-check"></i>
                             <span><strong>Level: </strong>${level.levelName}</span>
                         </div>
                         <div class="content__list--learned__item">
-                            <i class="fa-regular fa-calendar"></i>
-                            <span><strong>Start date: </strong><fmt:formatDate pattern="dd/MM/YYYY" value="${course.startDate}"/> - <fmt:formatDate pattern="dd/MM/YYYY" value="${course.endDate}"/></span>
+                            <i class="fa-solid fa-upload"></i>
+                            <span><strong>Upload course: </strong>${createdBy}</span>
                         </div>
                         <div class="content__list--learned__item">
                             <i class="fa-regular fa-user"></i>
@@ -188,8 +190,8 @@
                     <div class="content__right__infoCourse">
                         <h2 style="color: red;"><fmt:formatNumber value="${course.tuitionFee}" type="currency"/></h2>
                         <div class="btn--addList">
-                            <button type="button" onclick="addCart(${course.courseID}, this)" ${inCart ? "disabled" : ""}  class='btn btn--cart ${inCart ? "btn-outline-success" : "btn-outline-warning"}'>
-                                ${inCart ? "This course is already in cart" : "Book this course" }
+                            <button type="button" onclick="addCart(${course.courseID}, this)" ${inCart || sessionScope.user.role == "AD" ? "disabled" : ""}  class='btn btn--cart ${inCart ? "btn-outline-success" : "btn-outline-warning"}'>
+                                ${ sessionScope.user.role == "AD" ? "You are not allow to do this " : inCart ? "This course is already in cart" : "Book this course" }
                             </button>
                         </div>
                         <p style="font-size: 18px; font-weight: 600; margin: 15px 0 0">
@@ -199,7 +201,6 @@
                             <li>30 mins on-demand video</li>
                             <li>4 downloadable resources</li>
                             <li>Full lifetime access</li>
-                            <li>Access on mobile and TV</li>
                         </ul>
                     </div>
                 </div>

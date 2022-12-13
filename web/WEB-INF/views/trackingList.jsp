@@ -70,7 +70,13 @@
                         <!-- Single item -->
                     </div>
                 </div>
+<<<<<<< HEAD
             </c:forEach>
         </c:if>
+=======
+            </div>
+        </c:forEach>
+        <jsp:include page="footer.html"/>
+>>>>>>> 97871c8e891fef977fd9beb01dca402d22d0c0fa
     </body>
 </html>

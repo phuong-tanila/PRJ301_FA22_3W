@@ -51,7 +51,16 @@
                                 <div class="divider d-flex align-items-center my-4">
                                     <p class="text-center fw-bold mb-0">OR</p>
                                 </div>
+<<<<<<< HEAD
 
+=======
+                                
+                                <!-- Sign with Google -->
+                                <div>
+                                    
+                                </div>
+                                
+>>>>>>> a2da7ebbee50f2add177515ffc70b9a790fe889a
                                 <!-- Email input -->
                                 <div class="form-outline mb-4">
                                     <input type="text" required id="form3Example3" name="username" class="form-control form-control-lg"

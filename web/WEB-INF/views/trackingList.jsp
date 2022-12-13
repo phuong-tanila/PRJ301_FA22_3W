@@ -64,5 +64,6 @@
                 </div>
             </div>
         </c:forEach>
+        <jsp:include page="footer.html"/>
     </body>
 </html>

@@ -40,14 +40,14 @@
                             </ul>
                         </li>
                     </ul>
-                    <form class="d-flex w-100 me-4">
+                    <form class="d-flex w-100 me-2">
                         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="searchValue">
                         <button class="btn btn-outline-warning" type="submit" name="btnAction" value="search">
                             <i class="fa-solid fa-magnifying-glass"></i></button>    
                     </form>
                     <c:if test="${user != null}">
                         <c:if test='${user.role != "AD" }'>
-                            <button type="button" onclick="window.location.href = '<c:url value="MainController?btnAction=cart&func=showCart"/>'"class="btn btn-primary"><i class="fa-solid fa-cart-shopping"></i></button>
+                            <button type="button" onclick="window.location.href = '<c:url value="MainController?btnAction=cart&func=showCart"/>'"class="btn btn-outline-warning me-2"><i class="fa-solid fa-cart-shopping"></i></button>
                             </c:if>
                         <div class="dropdown">
                             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">

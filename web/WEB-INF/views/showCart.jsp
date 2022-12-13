@@ -23,25 +23,20 @@
             }
         </style>
     </head>
-    <body>
+    <body style="background-color: #efefef">
         <jsp:include page="headerLogin.jsp"/>
         <section class="h-100 gradient-custom">
             <div class="container py-5">
                 <div class="row d-flex justify-content-center my-4">
-                    <div class="col-md-8">
-
-
+                    <div class="col-md-8" style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;">
                         <div class="card mb-4">
                             <div class="card-header py-3">
                                 <h5 class="mb-0 d-flex justify-content-between"><span class="justify-content-center">Cart - <span class='cart-size'>${cartList.size()}</span> ${cartList.size() == 1 ? "item<span class='letter-s'></span>" : "item<span class='letter-s'>s</span>"}</span>
                                     <c:forEach items="${cartList}" var="i" varStatus="loop">
-
-
                                     </h5>
                                 </div>
                                 <div class="card-body">
                                     <!-- Single item -->
-
                                     <div class="row course-id" course-id='${courseList[loop.index].courseID}'>
                                         <a href='<c:url value="MainController?id=${courseList[loop.index].courseID}&btnAction=detail"/>'>
                                             <div class="col-lg-3 col-md-12 mb-4 mb-lg-0">
@@ -54,7 +49,6 @@
                                                     </a>
                                                 </div>
                                             </div>
-
                                             <div class="col-lg-5 col-md-6 mb-4 mb-lg-0">
                                                 <!-- Data -->
                                                 <p><strong>${courseList[loop.index].courseName}</strong></p>
@@ -65,16 +59,13 @@
 
                                                 <!-- Data -->
                                             </div>
-
                                             <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
-
-
                                                 <!-- Price -->
                                                 <p class="text-start text-md-center">
                                                     <strong>Tutor fee: <span class="itemMoney"><fmt:formatNumber  type="currency" value="${i.price}"/></span></strong>
                                                 </p>
                                                 <!-- Price -->
-                                                <button type="button" onclick="handleDelete(this, ${i.courseID})" class="btn w-100 btn-primary btn-sm me-1 mb-2 justify-content-center" data-mdb-toggle="tooltip"
+                                                <button type="button" onclick="handleDelete(this, ${i.courseID})" class="btn w-100 btn-outline-danger btn-sm me-1 mb-2 justify-content-center" data-mdb-toggle="tooltip"
                                                         title="Remove item">
                                                     <i class="fas fa-trash"></i>
                                                 </button>
@@ -92,25 +83,22 @@
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="card mb-4">
+                        <div class="card mb-4"  style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;">
                             <div class="card text-black rounded-3">
                                 <div class='card-header py-3'>
                                     <h5 class="mb-0">Payment method</h5>
                                 </div>
                                 <div class="card-body">
-
                                     <a type="submit" class="text-white payment-method " onclick='handleChangePaymentMethod(this)'>
                                         <i class="fa-solid fa-wallet opa-1"></i>
                                     </a>
                                     <a type="submit" class="text-white payment-method" onclick='handleChangePaymentMethod(this)'>
                                         <i class="fa-brands fa-cc-paypal"></i>
                                     </a>
-
-
                                 </div>
                             </div>
                         </div>
-                        <div class="card mb-4">
+                        <div class="card mb-4"  style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;">
                             <div class="card-header py-3">
                                 <h5 class="mb-0">Summary</h5>
                             </div>
@@ -132,7 +120,7 @@
 
                                 <!-- Button trigger modal -->
                                 <div ${empty user ? "" : "id='paypal-button-container'"}>
-                                    <button type="button"   class="btn btn-primary btn-lg btn-block" 
+                                    <button type="button"   class="btn btn-success btn-lg btn-block" 
                                             ${empty user ? 
                                               "data-bs-toggle='modal' data-bs-target='#exampleModal' onclick='checkInput()'" 
                                               : "onclick='handlePayment(&#34;logged in&#34;)'"}>
@@ -167,7 +155,6 @@
                                                     <div class="modal-footer">
                                                         <!--<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>-->
                                                         <div id="paypal-button-container">
-
                                                             <button type="button" class="btn btn-primary" onclick='handlePayment("not logged in")'>Pay</button>
                                                         </div>
                                                     </div>
@@ -180,13 +167,13 @@
                         </div>
                     </div>
                     <form id="hiddenForm" action="MainController">
-                        <input name='btnAction' value='cart' >
-                        <input name='func' value='pay' >
-                        <input name='total' id="total" >
-                        <input name='email' id='hiddenEmail'  >
-                        <input name='fullName' id='hiddenFullName'  >
-                        <input name='phone' id='hiddenPhone'>
-                        <input name="paymentMethod" id="paymentMethod">
+                        <input name='btnAction' value='cart' hidden>
+                        <input name='func' value='pay' hidden>
+                        <input name='total' id="total" hidden>
+                        <input name='email' id='hiddenEmail'  hidden>
+                        <input name='fullName' id='hiddenFullName'  hidden>
+                        <input name='phone' id='hiddenPhone' hidden>
+                        <input name="paymentMethod" id="paymentMethod" hidden>
                     </form>
                 </div>
             </section>

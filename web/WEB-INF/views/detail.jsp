@@ -61,6 +61,7 @@
 
             </div>
         </div>
+                        
         <script src="https://kit.fontawesome.com/1aa19ebad3.js" crossorigin="anonymous"></script>
         <script>
             function addCart(id, el) {

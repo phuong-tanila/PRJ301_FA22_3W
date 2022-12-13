@@ -53,7 +53,7 @@
                             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                 ${sessionScope.user.fullName}
                             </button>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton1">
                                 <c:if test='${user.role != "AD" }'>
                                     <li><a class="dropdown-item" href="<c:url value="MainController?btnAction=tracking&userId=${user.userID}"/>">Order tracking</a></li>
                                     </c:if>

@@ -31,35 +31,31 @@
             }
         </style>
     </head>
-    <body style="height: 100vh;">
+    <body style="background-color: #efefef">
         <jsp:include page="WEB-INF/views/headerLogin.jsp"/>
-        <div class="container">
-            <div class="row justify-content-around">
+            <div class="row" style="width: 100% !important; margin-left: 130px !important;">
                 <fmt:setLocale value="vi_VN"/>
                 <c:forEach items="${topSellerCourse}" var="course" varStatus="i">
-
-                    <div class="card col-md-3">
+                    <div class="card" style="width: 20%; margin: 5px !important; padding: 5px !important; box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;">
                         <a href="<c:url value="/MainController?id=${course.courseID}&btnAction=detail" />" style="text-decoration: none; display: inline-block;">
                             <img style="height: 200px;" src="${course.imageUrl}" class="card-img-top" alt="">
                             <div class="card-body">
-                                <h5 class="card-title card-title-custom" data-toggle="tooltip" data-placement="top" title="${course.courseName}">${course.courseName}</h5>
+                                <h5 class="card-title card-title-custom" style="color: #696969" data-toggle="tooltip" data-placement="top" title="${course.courseName}">${course.courseName}</h5>
 
  <!--<p class="card-text card-desc" >${course.description}</p>-->
                                 <p class="d-flex justify-content-between">
-                                    <span class="p-2 bg-secondary text-center text-white" style="width: 102px;">${cateList[i.index].cateName}</span>
-                                    <span class="p-2 bg-secondary text-center text-white" style="width: 102px;">${levelList[i.index].levelName}</span>
+                                    <span class="p-2 text-center" style="color: #696969; width: 102px; border-radius: 15px; box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;">${cateList[i.index].cateName}</span>
+                                    <span class="p-2 text-center" style="color: #696969; width: 102px; border-radius: 15px; box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;">${levelList[i.index].levelName}</span>
                                 </p>
                                 <p class="d-flex justify-content-between">
-                                    <span class=" card-text">${teacherList[i.index].fullName}</span>
+                                    <span style="color: #696969">${teacherList[i.index].fullName}</span>
                                     <span  style="color:red;"><fmt:formatNumber type="currency" value="${course.tuitionFee}"/></span>
                                 </p>
-                                
                             </div>
                         </a>
                     </div>
                 </c:forEach>    
             </div>
-        </div>
         <jsp:include page="WEB-INF/views/footer.html"/>
     </body>
 </html>

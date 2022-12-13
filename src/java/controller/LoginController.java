@@ -29,6 +29,7 @@ public class LoginController extends HttpServlet {
 
     private final String HOME_CONTROLLER = "HomeController";
     private final String LOGIN_CONTROLLER = "LoginController";
+    private final String LOGIN_PAGE = "login.jsp";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -48,13 +49,16 @@ public class LoginController extends HttpServlet {
             String url = HOME_CONTROLLER;
             UserDAO uDAO = new UserDAO();
             UserDTO user = null;
+            System.out.println("login controller " );
             System.out.println(func);
             if (func == null) {
                 String username = request.getParameter("username");
                 String password = request.getParameter("password");
                 user = uDAO.login(username, password);
+                System.out.println(user);
                 if (user == null) {
-                    url = LOGIN_CONTROLLER;
+                    url = LOGIN_PAGE;
+                    request.setAttribute("msg", "The username or password is not correct, please try again!");
                 } else {
                     HttpSession session = request.getSession();
                     session.setAttribute("user", user);

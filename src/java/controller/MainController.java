@@ -91,6 +91,7 @@ public class MainController extends HttpServlet {
             }
             case "tracking": {
                 url = TRACKING_CONTROLLER;
+                break;
             }
         }
         request.getRequestDispatcher(url).forward(request, response);

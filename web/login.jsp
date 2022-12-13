@@ -4,6 +4,7 @@
     Author     : 15tha
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -44,23 +45,31 @@
                                     <p class="lead fw-bold mb-0 me-3">Sign in with</p>
 
                                     <!-- Sign with Google -->
-                                    <span id="google-button"></span>
+                                    <span id="">
+                                        <div id="g_id_onload"
+                                             data-client_id="148898507863-35p32uerrpsqcs752loi69eb9ouji8k1.apps.googleusercontent.com"
+                                             data-context="signin"
+                                             data-ux_mode="popup"
+                                             data-callback="handleCredentialResponse"
+                                             data-itp_support="true">
+                                        </div>
+
+                                        <div class="g_id_signin"
+                                             data-type="standard"
+                                             data-shape="pill"
+                                             data-theme="filled_blue"
+                                             data-text="signin_with"
+                                             data-size="large"
+                                             data-logo_alignment="left">
+                                        </div>
+                                    </span>
                                 </div>
 
 
                                 <div class="divider d-flex align-items-center my-4">
                                     <p class="text-center fw-bold mb-0">OR</p>
                                 </div>
-<<<<<<< HEAD
 
-=======
-                                
-                                <!-- Sign with Google -->
-                                <div>
-                                    
-                                </div>
-                                
->>>>>>> a2da7ebbee50f2add177515ffc70b9a790fe889a
                                 <!-- Email input -->
                                 <div class="form-outline mb-4">
                                     <input type="text" required id="form3Example3" name="username" class="form-control form-control-lg"
@@ -74,7 +83,7 @@
                                            placeholder="Enter password" />
                                     <label class="form-label" for="form3Example4">Password</label>
                                 </div>
-                                <p style="color: red;">${msg}</p>
+                                <p id='msg' style="color: red;">${msg}</p>
 
                                 <div class="text-center text-lg-start mt-4 pt-2">
                                     <button type="submit" name="btnAction" value="login" class="btn btn-primary btn-lg"
@@ -139,42 +148,47 @@
             </div>
             <!-- Copyright -->
         </footer>
+        <form id="googleSignIn">
+            <input type="text" id='hiddenEmail' hidden name="email">
+        </form>
         <script
             type="text/javascript"
             src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.0.1/mdb.min.js"
         ></script>
         <!-- Pills content -->
         <script>
-            var googleButton = document.getElementById('google-button');
-            var container = document.getElementsByClassName('container')[0];
-            var img = document.getElementsByClassName('img')[0];
-            var getName = document.getElementsByClassName('name')[0];
-            var id = document.getElementsByClassName('id')[0];
-            var email = document.getElementsByClassName('email')[0];
-
+            const msg = localStorage.getItem("msg");
+            if(msg != null){
+                document.querySelector("#msg").innerHTML = msg;
+                localStorage.removeItem("msg");
+            }
             // function to get response
             function handleCredentialResponse(response) {
                 const responsePayload = decodeJwtResponse(response.credential);
-                img.src = responsePayload.picture;
-                getName.innerHTML = responsePayload.name;
-                id.innerHTML = responsePayload.sub;
-                email.innerHTML = responsePayload.email;
-                container.style.display = 'inline-block';
-                googleButton.style.display = 'none'
+                const email = responsePayload.email;
+                fetch("<c:url value="/MainController?btnAction=login&func=loginGoogle&email="/>" + email,{
+                    method:"GET"
+                })
+                .then(res => res.json())
+                .then(res => {
+                    if(res == null){
+                        localStorage.setItem("msg", "This email is not existed in our system, please login to another one");
+                        window.location.reload(); 
+                    }else{
+                        window.location.href = '<c:url value="/MainController"/>'
+                    }
+                });
+//                img.src = responsePayload.picture;
+//                getName.innerHTML = responsePayload.name;
+//                id.innerHTML = responsePayload.sub;
+//                email.innerHTML = responsePayload.email;
+//                container.style.display = 'inline-block';
+//                googleButton.style.display = 'none'
+
             }
 
             window.onload = function () {
-                google.accounts.id.initialize({
-                    // replace your client id below
-                    client_id: "148898507863-35p32uerrpsqcs752loi69eb9ouji8k1.apps.googleusercontent.com",
-                    callback: handleCredentialResponse,
-                    auto_select: true,
-                    auto: true
-                });
-                google.accounts.id.renderButton(
-                        document.getElementById("google-button"),
-                        {theme: "filled_blue", size: "medium", width: '200'}  // customization attributes
-                );
+
                 // also display the One Tap dialog on right side
                 // important for auto login
                 google.accounts.id.prompt();
@@ -190,11 +204,6 @@
                 return JSON.parse(jsonPayload);
             }
 
-            function signOut() {
-                google.accounts.id.disableAutoSelect();
-                // do anything on logout
-                location.reload();
-            }
         </script>
         <script src="https://accounts.google.com/gsi/client" async defer></script>
     </body>

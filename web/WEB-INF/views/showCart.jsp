@@ -284,6 +284,7 @@
                                                                                 },
                                                                                 method: "GET",
                                                                             }).then(res => res.json()).then(res => price = res.result)
+                                                                            console.log(price)
                                                                             paypal_sdk.Buttons({
                                                                                 onInit: function (data, actions) {
                                                                                     if (document.querySelector('.cart-size') == 0) {

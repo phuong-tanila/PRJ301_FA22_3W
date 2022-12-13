@@ -5,6 +5,7 @@
  */
 package controller;
 
+import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -25,8 +26,10 @@ import user.UserDTO;
  */
 @WebServlet(name = "LoginController", urlPatterns = {"/LoginController"})
 public class LoginController extends HttpServlet {
+
     private final String HOME_CONTROLLER = "HomeController";
     private final String LOGIN_CONTROLLER = "LoginController";
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -41,18 +44,34 @@ public class LoginController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
+            String func = request.getParameter("func");
             String url = HOME_CONTROLLER;
             UserDAO uDAO = new UserDAO();
-            String username = request.getParameter("username");
-            String password = request.getParameter("password");
-            UserDTO user = uDAO.login(username, password);
-            if(user == null){
-                url = LOGIN_CONTROLLER;
-            }else {
-                HttpSession session = request.getSession();
-                session.setAttribute("user", user);
+            UserDTO user = null;
+            System.out.println(func);
+            if (func == null) {
+                String username = request.getParameter("username");
+                String password = request.getParameter("password");
+                user = uDAO.login(username, password);
+                if (user == null) {
+                    url = LOGIN_CONTROLLER;
+                } else {
+                    HttpSession session = request.getSession();
+                    session.setAttribute("user", user);
+                }
+
+                request.getRequestDispatcher(url).forward(request, response);
+            } else {
+                String email = request.getParameter("email");
+                user = uDAO.findByEmail(email);
+                if(user == null) {
+                    out.println(user);
+                }else{
+                    request.getSession().setAttribute("user", user);
+                    out.println(new Gson().toJson(user));
+                }
             }
-            request.getRequestDispatcher(url).forward(request, response);
+
         } catch (SQLException ex) {
             Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
         }

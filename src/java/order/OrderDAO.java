@@ -128,10 +128,11 @@ public class OrderDAO {
         stm.setString(4, o.getPaymentMethod());
         stm.setString(5, o.getPaymentStatus());
         ResultSet rs = stm.executeQuery();
-        if (rs.next()) {
-            return rs.getInt("OrderID");
+        int orderID = -1;
+        while (rs.next()) {
+            orderID =  rs.getInt("OrderID");
         }
-        return -1;
+        return orderID;
     }
     
     public int count() throws SQLException {

@@ -72,9 +72,10 @@ public class OrderDAO {
                 order.setOrderID(rs.getInt("OrderID"));
                 order.setUserID(rs.getInt("UserID"));
                 order.setBuyDate(rs.getDate("Buy_Date"));
+                order.setTotalPrice(rs.getInt("Total_Price"));
                 order.setPaymentMethod(rs.getString("Payment_Method"));
                 order.setPaymentStatus(rs.getString("Payment_Status"));
-                order.setItems(new OrderItemDAO().getAll(userId));
+                order.setItems(new OrderItemDAO().getAllWithCourse(rs.getInt("OrderID")));
                 tmpList.add(order);
             }
             list = tmpList;
@@ -145,10 +146,20 @@ public class OrderDAO {
         return -1;
     }
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         OrderDAO oDAO = new OrderDAO();
         try {
-            System.out.println(oDAO.findAllOrderByUser(13));
+            for (OrderDTO x : oDAO.findAllOrderByUser(1)) {
+                System.out.println("Order ID: " + x.getOrderID());
+                
+                for (OrderItemDTO a : x.getItems()) {
+                    System.out.println(a.getCourseID());
+                }
+              
+            }
+            
+            
+            
         } catch (Exception ex) {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
         }

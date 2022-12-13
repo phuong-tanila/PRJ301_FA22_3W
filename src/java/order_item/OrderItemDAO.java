@@ -6,6 +6,7 @@
 package order_item;
 
 import course.CourseDAO;
+import course.CourseDTO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,6 +18,7 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import order.OrderDAO;
 import order.OrderDTO;
+import user.UserDAO;
 import utils.DBUtil;
 
 /**
@@ -49,6 +51,36 @@ public class OrderItemDAO {
         return list;
     }
 
+    public List<OrderItemDTO> getAllWithCourse(int orderID) throws SQLException {
+        String sql = "SELECT [OrderID]\n"
+                + "      ,[CourseID]\n"
+                + "      ,[Quantity]\n"
+                + "      ,[Price]\n"
+                + "  FROM [Order_Detail]"
+                + "  WHERE [OrderID] = ?";
+        Connection conn = DBUtil.getConnection();
+
+        PreparedStatement stm = conn.prepareStatement(sql);
+        stm.setInt(1, orderID);
+        ResultSet rs = stm.executeQuery();
+        List<OrderItemDTO> list = new ArrayList<>();
+        CourseDAO cdao = new CourseDAO();
+        UserDAO udao = new UserDAO();
+        while (rs.next()) {
+            OrderItemDTO o = new OrderItemDTO();
+            o.setOrderID(rs.getInt("OrderID"));
+            o.setCourseID(rs.getInt("CourseID"));
+            o.setQuantity(rs.getInt("quantity"));
+            o.setPrice(rs.getInt("price"));
+            o.setCourse(cdao.find(rs.getInt("CourseID")));
+            
+            int teacherId = cdao.find(rs.getInt("CourseID")).getTeacherID();
+            o.setUser(udao.find(Integer.toString(teacherId)));
+            list.add(o);
+        }
+        return list;
+    }
+
     public boolean create(OrderItemDTO o) throws SQLException {
         String sql = "insert into Order_Detail\n"
                 + "(OrderID, CourseID, Quantity, Price)\n"
@@ -68,7 +100,7 @@ public class OrderItemDAO {
 
         try {
 //            System.out.println(oiDAO.create(o));
-            System.out.println(oiDAO.getAll(1));
+            System.out.println(oiDAO.getAllWithCourse(1));
         } catch (SQLException ex) {
             Logger.getLogger(OrderItemDAO.class.getName()).log(Level.SEVERE, null, ex);
         }

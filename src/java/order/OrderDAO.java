@@ -72,9 +72,10 @@ public class OrderDAO {
                 order.setOrderID(rs.getInt("OrderID"));
                 order.setUserID(rs.getInt("UserID"));
                 order.setBuyDate(rs.getDate("Buy_Date"));
+                order.setTotalPrice(rs.getInt("Total_Price"));
                 order.setPaymentMethod(rs.getString("Payment_Method"));
                 order.setPaymentStatus(rs.getString("Payment_Status"));
-                order.setItems(new OrderItemDAO().getAll(userId));
+                order.setItems(new OrderItemDAO().getAllWithCourse(userId));
                 tmpList.add(order);
             }
             list = tmpList;
@@ -148,7 +149,7 @@ public class OrderDAO {
     public static void main(String[] args) {
         OrderDAO oDAO = new OrderDAO();
         try {
-            System.out.println(oDAO.findAllOrderByUser(13));
+            System.out.println(oDAO.findAllOrderByUser(1).get(0).getItems().get(0).getCourse().getCourseName());
         } catch (Exception ex) {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
         }

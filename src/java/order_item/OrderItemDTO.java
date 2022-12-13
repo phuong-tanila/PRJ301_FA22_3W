@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import user.UserDTO;
 
 @Getter @Setter
 @NoArgsConstructor
@@ -18,4 +19,9 @@ public class OrderItemDTO {
     private int courseID;
     private int quantity = 1;
     private double price;
+    
+    
+    private course.CourseDTO course;
+    private UserDTO user;
+    
 }

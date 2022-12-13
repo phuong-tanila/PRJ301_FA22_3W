@@ -163,8 +163,10 @@ public class CartController extends HttpServlet {
                         OrderDAO oDAO = new OrderDAO();
                         boolean result = oDAO.createOrder(cart);
                         if (result) {
-                            cart = null;
-                            out.print(result);
+//                            cart = null;
+                            session.setAttribute("cart", null);
+//                            out.print(result);
+                            response.sendRedirect("MainController");
                         }
                         break;
 //                        cart.setPaymentMethod(action);

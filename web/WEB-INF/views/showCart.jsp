@@ -51,20 +51,15 @@
                                             </div>
                                             <div class="col-lg-5 col-md-6 mb-4 mb-lg-0">
                                                 <!-- Data -->
-                                                <p><strong>${courseList[loop.index].courseName}</strong></p>
+                                                <p><strong>Course: </strong>${courseList[loop.index].courseName}</p>
                                                 <fmt:setLocale value="vi_VN"/>
-                                                <p>${teacherList[loop.index].fullName}</p>
-                                                <p><fmt:formatDate pattern="dd/MM/YYYY" value="${courseList[loop.index].startDate}"/> - <fmt:formatDate pattern="dd/MM/YYYY" value="${courseList[loop.index].endDate}"/></p>
-
-
+                                                <p><strong>Teacher: </strong>${teacherList[loop.index].fullName}</p>
+                                                <p><strong>Start date: </strong><fmt:formatDate pattern="dd/MM/YYYY" value="${courseList[loop.index].startDate}"/> - <fmt:formatDate pattern="dd/MM/YYYY" value="${courseList[loop.index].endDate}"/></p>
+                                                <p><strong>Tutor fee: </strong><span style="color: red" class="itemMoney"><fmt:formatNumber  type="currency" value="${i.price}"/></span>
+                                             </p>
                                                 <!-- Data -->
                                             </div>
                                             <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
-                                                <!-- Price -->
-                                                <p class="text-start text-md-center">
-                                                    <strong>Tutor fee: <span class="itemMoney"><fmt:formatNumber  type="currency" value="${i.price}"/></span></strong>
-                                                </p>
-                                                <!-- Price -->
                                                 <button type="button" onclick="handleDelete(this, ${i.courseID})" class="btn w-100 btn-outline-danger btn-sm me-1 mb-2 justify-content-center" data-mdb-toggle="tooltip"
                                                         title="Remove item">
                                                     <i class="fas fa-trash"></i>

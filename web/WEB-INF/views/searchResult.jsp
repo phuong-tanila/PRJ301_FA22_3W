@@ -30,8 +30,10 @@
 
         <jsp:include page="headerLogin.jsp"/>
 
-            <div class="row" style="width: 100% !important; margin-left: 130px !important;">
-                <fmt:setLocale value="vi_VN"/>
+
+        <div class="row" style="width: 100% !important; margin-left: 130px !important;">
+            <fmt:setLocale value="vi_VN"/>
+            <c:if test="${list != null}" >
                 <c:forEach items="${list}" var="course" varStatus="i">
                     <div class="card" style="width: 20%; margin: 5px !important; padding: 5px !important; box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;">
                         <a href="<c:url value="/CourseDetailController?id=${course.courseID}" />" style="text-decoration: none; display: inline-block;">
@@ -52,9 +54,14 @@
                         </a>
                     </div>
                 </c:forEach>    
-            </div>    
+            </c:if>
+        </div>    
 
-        <c:if test="${searchValue == null}" >
+        <c:if  test="${empty list}" >
+            <h1 style="text-align: center; color: #696969">Không tìm thấy sản phẩm!!</h1>
+        </c:if>
+
+        <c:if test="${empty searchValue}" >
             <div class="d-flex justify-content-center g-2">     
                 <form action="SearchController">   
                     <nav aria-label="Page navigation example">
@@ -68,7 +75,7 @@
             </div>
         </c:if>
 
-        <c:if test="${cateId == null}">
+        <c:if test="${empty cateId}">
             <div class="d-flex justify-content-center g-2">     
                 <form action="SearchController">   
                     <nav aria-label="Page navigation example">
@@ -80,6 +87,8 @@
                     </nav>
                 </form>
             </div></c:if> 
+
+
         <jsp:include page="footer.html"/>
     </body>
 </html>

@@ -40,7 +40,7 @@
                             </ul>
                         </li>
                     </ul>
-                    <form class="d-flex w-100 me-4">
+                        <form class="d-flex w-100 me-4" action="MainController">
                         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="searchValue">
                         <button class="btn btn-outline-warning" type="submit" name="btnAction" value="search">
                             <i class="fa-solid fa-magnifying-glass"></i></button>    

@@ -70,6 +70,10 @@
                                     <p class="text-center fw-bold mb-0">OR</p>
                                 </div>
 
+<<<<<<< HEAD
+=======
+                            
+>>>>>>> fd7fa9d3f03d71cb197436280079a8774c7576df
                                 <!-- Email input -->
                                 <div class="form-outline mb-4">
                                     <input type="text" required id="form3Example3" name="username" class="form-control form-control-lg"

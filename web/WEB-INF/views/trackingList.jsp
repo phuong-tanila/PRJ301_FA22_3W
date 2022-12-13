@@ -20,7 +20,6 @@
         <fmt:setLocale value="vi_VN"/>
         <c:forEach items="${listOrder}" var="i">
             <div class="card mb-4">
-
                 <div class="card-header py-3">
                     <h5 class="mb-0 d-flex justify-content-between">
                         <span class="justify-content-center">OrderID #<span>${i.orderID}</span>  </span>

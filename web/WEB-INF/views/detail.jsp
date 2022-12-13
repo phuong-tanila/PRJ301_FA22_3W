@@ -190,8 +190,8 @@
                     <div class="content__right__infoCourse">
                         <h2 style="color: red;"><fmt:formatNumber value="${course.tuitionFee}" type="currency"/></h2>
                         <div class="btn--addList">
-                            <button type="button" onclick="addCart(${course.courseID}, this)" ${inCart ? "disabled" : ""}  class='btn btn--cart ${inCart ? "btn-outline-success" : "btn-outline-warning"}'>
-                                ${inCart ? "This course is already in cart" : "Book this course" }
+                            <button type="button" onclick="addCart(${course.courseID}, this)" ${inCart || sessionScope.user.role == "AD" ? "disabled" : ""}  class='btn btn--cart ${inCart ? "btn-outline-success" : "btn-outline-warning"}'>
+                                ${ sessionScope.user.role == "AD" ? "You are not allow to do this " : inCart ? "This course is already in cart" : "Book this course" }
                             </button>
                         </div>
                         <p style="font-size: 18px; font-weight: 600; margin: 15px 0 0">

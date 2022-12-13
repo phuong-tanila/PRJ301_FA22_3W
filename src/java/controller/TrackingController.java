@@ -42,12 +42,10 @@ public class TrackingController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         int userId = Integer.parseInt(request.getParameter("userId"));
+        OrderDAO dao = new OrderDAO();
         try {
-            System.out.println(userId);
-            List<OrderDTO> list = new OrderDAO().findAllOrderByUser(userId);
-            System.out.println(list);
+            List<OrderDTO> list = dao.findAllOrderByUser(userId);
             request.setAttribute("listOrder", list);
-
             request.getRequestDispatcher(TRACKING_PAGE).forward(request, response);
         } catch (SQLException ex) {
             Logger.getLogger(TrackingController.class.getName()).log(Level.SEVERE, null, ex);

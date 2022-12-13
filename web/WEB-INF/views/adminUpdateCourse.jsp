@@ -137,6 +137,25 @@
             </form>
         </div>
         <script>
+            function getCourseData() {
+                console.log();
+                const id = $('.course-select').val();
+                fetch("<c:url value='/MainController?btnAction=ajax'/>&func=getCourse&ID=" + id, {
+                    method: "GET"
+                }).then(res => res.json()).then(res => {
+                    console.log(res)
+                    document.querySelector("input[name=courseName]").value = res.courseName;
+                    document.querySelector("input[name=courseImg]").value = res.imageUrl;
+                    document.querySelector("input[name=courseDesc]").value = res.description;
+                    $('.teacher-select').val(res.teacherID).trigger('change');
+                    $('.level-select').val(res.levelID).trigger('change');
+                    document.querySelector("input[name=slot]").value = res.slot;
+
+                    $('.category-select').val(res.categoryID).trigger('change');
+                    document.querySelector("input[name=duration]").value = formatDate(res.startDate) + " - " + formatDate(res.endDate)
+                    document.querySelector("input[name=price]").value = res.tuitionFee;
+                });
+            }
             function formatDate(dateStr) {
                 const date = new Date(dateStr);
                 const yyyy = date.getFullYear();
@@ -171,26 +190,9 @@
                     courseSelect.innerHTML += '<option value="' + i.courseID + '">' + i.courseID + '</option>'
                 });
                 $('.course-select').select2();
-                $('.course-select').on('change.select2', function (e) {
-                    console.log();
-                    const id = $('.course-select').val();
-                    fetch("<c:url value='/MainController?btnAction=ajax'/>&func=getCourse&ID=" + id, {
-                        method: "GET"
-                    }).then(res => res.json()).then(res => {
-                        console.log(res)
-                        document.querySelector("input[name=courseName]").value = res.courseName;
-                        document.querySelector("input[name=courseImg]").value = res.imageUrl;
-                        document.querySelector("input[name=courseDesc]").value = res.description;
-                        $('.teacher-select').val(res.teacherID).trigger('change');
-                        $('.level-select').val(res.levelID).trigger('change');
-                        document.querySelector("input[name=slot]").value = res.slot;
-
-                        $('.category-select').val(res.categoryID).trigger('change');
-                        document.querySelector("input[name=duration]").value = formatDate(res.startDate) + " - " + formatDate(res.endDate)
-                        document.querySelector("input[name=price]").value = res.tuitionFee;
-                    });
+                $('.course-select').on('change.select2',getCourseData);
                 });
-            });
+            
 //            function handleSubmit() {
 //                const form = new FormData(document.querySelector("#form"))
 //                const data = new URLSearchParams();

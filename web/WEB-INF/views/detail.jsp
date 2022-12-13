@@ -155,17 +155,19 @@
                         <fmt:setLocale  value="vi_VN"/>
                         <div class="content__list--learned__item">
                             <i class="fa-regular fa-bookmark"></i>
-                            <span><strong>Subject: </strong>${category.cateName}</span>
+                            <span><strong>Course: </strong>${category.cateName}</span>
                         </div>
                         <div class="content__list--learned__item">
+                            <i class="fa-regular fa-calendar"></i>
+                            <span><strong>Start date: </strong><fmt:formatDate pattern="dd/MM/YYYY" value="${course.startDate}"/> - <fmt:formatDate pattern="dd/MM/YYYY" value="${course.endDate}"/></span>
                         </div>
                         <div class="content__list--learned__item">
                             <i class="fa-solid fa-check"></i>
                             <span><strong>Level: </strong>${level.levelName}</span>
                         </div>
                         <div class="content__list--learned__item">
-                            <i class="fa-regular fa-calendar"></i>
-                            <span><strong>Start date: </strong><fmt:formatDate pattern="dd/MM/YYYY" value="${course.startDate}"/> - <fmt:formatDate pattern="dd/MM/YYYY" value="${course.endDate}"/></span>
+                            <i class="fa-solid fa-upload"></i>
+                            <span><strong>Upload course: </strong>${createdBy}</span>
                         </div>
                         <div class="content__list--learned__item">
                             <i class="fa-regular fa-user"></i>
@@ -199,7 +201,6 @@
                             <li>30 mins on-demand video</li>
                             <li>4 downloadable resources</li>
                             <li>Full lifetime access</li>
-                            <li>Access on mobile and TV</li>
                         </ul>
                     </div>
                 </div>

@@ -69,7 +69,9 @@ public class CourseDetailController extends HttpServlet {
                 request.setAttribute("level", new LevelDAO().find(course.getLevelID()));
                 request.setAttribute("category", new CategoryDAO().find(course.getCategoryID()));
                 UserDTO user = new UserDAO().find(Integer.toString(course.getTeacherID()));
+                UserDTO user2 = new UserDAO().find(Integer.toString(course.getCreatedBy()));
                 request.setAttribute("teacherName", user.getFullName());
+                request.setAttribute("createdBy", user2.getFullName());
                 url = DETAIL_PAGE;
             }
             request.getRequestDispatcher(url).forward(request, response);
